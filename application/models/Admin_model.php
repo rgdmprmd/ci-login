@@ -31,7 +31,8 @@ class Admin_model extends CI_Model
 
     public function getBalance()
     {
-        $result = $this->db->query("SELECT SUM(income-outcome) as balance FROM earnings")->row();
+        $email = $this->session->userdata('email');
+        $result = $this->db->query("SELECT SUM(income-outcome) as balance FROM earnings WHERE email = '$email'")->row();
 
         return $result->balance;
     }
@@ -40,7 +41,9 @@ class Admin_model extends CI_Model
     {
         $year = date('Y');
         $month = date('m');
-        $result = $this->db->query("SELECT SUM(income-outcome) as totalEarning FROM earnings WHERE MONTH(dateCreated) = $month AND YEAR(dateCreated) = $year")->row();
+
+        $email = $this->session->userdata('email');
+        $result = $this->db->query("SELECT SUM(income-outcome) as totalEarning FROM earnings WHERE email = '$email' AND MONTH(dateCreated) = $month AND YEAR(dateCreated) = $year")->row();
 
         return $result->totalEarning;
     }
@@ -49,7 +52,9 @@ class Admin_model extends CI_Model
     {
         $year = date('Y');
         $month = date('m');
-        $result = $this->db->query("SELECT SUM(income) as totalIncome FROM earnings WHERE MONTH(dateCreated) = $month AND YEAR(dateCreated) = $year")->row();
+
+        $email = $this->session->userdata('email');
+        $result = $this->db->query("SELECT SUM(income) as totalIncome FROM earnings WHERE email = '$email' AND MONTH(dateCreated) = $month AND YEAR(dateCreated) = $year")->row();
 
         return $result->totalIncome;
     }
@@ -59,7 +64,8 @@ class Admin_model extends CI_Model
         $year = date('Y');
         $month = date('m');
 
-        $result = $this->db->query("SELECT SUM(outcome) as totalOutcome FROM earnings WHERE MONTH(dateCreated) = $month AND YEAR(dateCreated) = $year")->row();
+        $email = $this->session->userdata('email');
+        $result = $this->db->query("SELECT SUM(outcome) as totalOutcome FROM earnings WHERE email = '$email' AND MONTH(dateCreated) = $month AND YEAR(dateCreated) = $year")->row();
 
         return $result->totalOutcome;
     }
@@ -68,7 +74,8 @@ class Admin_model extends CI_Model
     {
         $year = date('Y');
 
-        $result = $this->db->query("SELECT `bulan`.`namaBulan`, SUM(`earnings`.`income` - `earnings`.`outcome`) as balance FROM `bulan` LEFT JOIN `earnings` ON `bulan`.`idBulan` = MONTH(`earnings`.`dateCreated`) WHERE YEAR(dateCreated) = $year GROUP BY MONTH(`earnings`.`dateCreated`) ORDER BY `bulan`.`idBulan`");
+        $email = $this->session->userdata('email');
+        $result = $this->db->query("SELECT `bulan`.`namaBulan`, SUM(`earnings`.`income` - `earnings`.`outcome`) as balance FROM `bulan` LEFT JOIN `earnings` ON `bulan`.`idBulan` = MONTH(`earnings`.`dateCreated`) WHERE `earnings`.`email` = '$email' AND YEAR(dateCreated) = $year GROUP BY MONTH(`earnings`.`dateCreated`) ORDER BY `bulan`.`idBulan`");
 
         return $result->result_array();
     }
@@ -78,7 +85,8 @@ class Admin_model extends CI_Model
         $year = date('Y');
         $month = date('m');
 
-        $result = $this->db->query("SELECT ROUND(SUM(totIncome / total*100), 2) as incomes, ROUND(SUM(totOutcome / total*100), 2) as outcomes FROM ( SELECT SUM(income) as totIncome, SUM(outcome) as totOutcome, SUM(outcome + income) as total FROM earnings WHERE MONTH(dateCreated) = $month AND YEAR(dateCreated) = $year) as sumary");
+        $email = $this->session->userdata('email');
+        $result = $this->db->query("SELECT ROUND(SUM(totIncome / total*100), 2) as incomes, ROUND(SUM(totOutcome / total*100), 2) as outcomes FROM ( SELECT SUM(income) as totIncome, SUM(outcome) as totOutcome, SUM(outcome + income) as total FROM earnings WHERE email = '$email' AND MONTH(dateCreated) = $month AND YEAR(dateCreated) = $year) as sumary");
 
         return $result->result_array();
     }
