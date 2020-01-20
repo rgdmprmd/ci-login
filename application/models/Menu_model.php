@@ -61,7 +61,7 @@ class Menu_model extends CI_Model
     public function updateSubmenu($data)
     {
         // tangkap id yang dikirimkan oleh form
-        $id = $this->input->post('idSubMenu');
+        $id = $this->input->post('idSubmenu');
 
         // Update sub menu baru berdasarkan data yang dikirimkan
         $this->db->where('idSubMenu', $id);
