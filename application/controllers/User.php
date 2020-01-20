@@ -192,6 +192,7 @@ class User extends CI_Controller
             $dateCreated = $this->input->post('dateCreated');
 
             $data = [
+                'email' => $email,
                 'transaksi' => $judulTransaksi,
                 'income' => $incomeTransaksi,
                 'outcome' => $outcomeTransaksi,

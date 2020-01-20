@@ -27,8 +27,9 @@ class User_model extends CI_Model
 
     public function getEarning()
     {
+        $email = $this->session->userdata('email');
         $date = date('Y-m-d');
-        return $this->db->order_by('idEarning', 'DESC')->get_where('earnings', ['dateCreated' => $date])->result_array();
+        return $this->db->order_by('idEarning', 'DESC')->get_where('earnings', ['email' => $email, 'dateCreated' => $date])->result_array();
     }
 
     public function getDate()
@@ -43,7 +44,8 @@ class User_model extends CI_Model
 
     public function getBalance()
     {
-        $result = $this->db->query("SELECT SUM(income-outcome) as balance FROM earnings")->row();
+        $email = $this->session->userdata('email');
+        $result = $this->db->query("SELECT SUM(income-outcome) as balance FROM earnings WHERE email = '$email'")->row();
 
         return $result->balance;
     }
@@ -51,8 +53,9 @@ class User_model extends CI_Model
     public function getTodayIncome()
     {
         $date = date('Y-m-d');
+        $email = $this->session->userdata('email');
         $this->db->select_sum('income');
-        $result = $this->db->get_where('earnings', ['dateCreated' => $date])->row();
+        $result = $this->db->get_where('earnings', ['email' => $email, 'dateCreated' => $date])->row();
 
         return $result->income;
     }
@@ -60,8 +63,9 @@ class User_model extends CI_Model
     public function getTodayOutcome()
     {
         $date = date('Y-m-d');
+        $email = $this->session->userdata('email');
         $this->db->select_sum('outcome');
-        $result = $this->db->get_where('earnings', ['dateCreated' => $date])->row();
+        $result = $this->db->get_where('earnings', ['email' => $email, 'dateCreated' => $date])->row();
 
         return $result->outcome;
     }
@@ -70,7 +74,9 @@ class User_model extends CI_Model
     {
         $startDate = $this->input->post('startDate');
         $endDate = $this->input->post('endDate');
+        $email = $this->session->userdata('email');
 
+        $this->db->where('email', $email);
         $this->db->where("dateCreated BETWEEN '$startDate' AND '$endDate'");
         $this->db->order_by('idEarning', 'DESC');
         return $this->db->get('earnings')->result_array();
@@ -80,8 +86,9 @@ class User_model extends CI_Model
     {
         $startDate = $this->input->post('startDate');
         $endDate = $this->input->post('endDate');
+        $email = $this->session->userdata('email');
 
-        $result = $this->db->query("SELECT SUM(income-outcome) as balance FROM earnings WHERE dateCreated BETWEEN '$startDate' AND '$endDate'")->row();
+        $result = $this->db->query("SELECT SUM(income-outcome) as balance FROM earnings WHERE email = '$email' AND dateCreated BETWEEN '$startDate' AND '$endDate'")->row();
 
         return $result->balance;
     }
@@ -90,8 +97,10 @@ class User_model extends CI_Model
     {
         $startDate = $this->input->post('startDate');
         $endDate = $this->input->post('endDate');
+        $email = $this->session->userdata('email');
 
         $this->db->select_sum('income');
+        $this->db->where('email', $email);
         $this->db->where("dateCreated BETWEEN '$startDate' AND '$endDate'");
         $result =  $this->db->get('earnings')->row();
 
@@ -102,8 +111,10 @@ class User_model extends CI_Model
     {
         $startDate = $this->input->post('startDate');
         $endDate = $this->input->post('endDate');
+        $email = $this->session->userdata('email');
 
         $this->db->select_sum('outcome');
+        $this->db->where('email', $email);
         $this->db->where("dateCreated BETWEEN '$startDate' AND '$endDate'");
         $result =  $this->db->get('earnings')->row();
 
