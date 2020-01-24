@@ -140,11 +140,11 @@ $.ajax({
     success: function (hasil) {
         console.log(hasil);
 
-        let ern = '';
+        let ern = [];
         $.each(hasil, function (i, data) {
-            ern += data.incomes, data.outcomes;
-            console.log(data.incomes);
-            console.log(data.outcomes);
+            ern.push(data.incomes)
+            ern.push(data.outcomes);
+            console.log(ern);
         })
 
         // Pie Chart Example
@@ -154,7 +154,7 @@ $.ajax({
             data: {
                 labels: ["Income", "Outcome"],
                 datasets: [{
-                    data: [ern],
+                    data: ern,
                     backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
                     hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
