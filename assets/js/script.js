@@ -147,6 +147,33 @@ $(function () {
         $('#outcomeTransaksi').val('');
     });
 
+    $('.tombolOrder').on('click', function () {
+
+        const id = $(this).data('id');
+        $.ajax({
+            url: 'http://localhost:8080/uanq/inventory/ajaxGetProduk',
+            data: { idJson: id },
+            method: 'POST',
+            dataType: 'json',
+            success: function (data) {
+
+                $('#produk').val(data.namaProduk);
+                $('#stoky').val(data.stokProduk);
+                $('#qty').attr('max', data.stokProduk);
+
+                $('#qty').keyup(function () {
+                    let qty = parseInt($('#qty').val());
+
+                    if (qty > data.stokProduk) {
+                        $('#qty').val(data.stokProduk);
+                    } else {
+                        qty;
+                    }
+                })
+            }
+        });
+    });
+
 
     // Date Picker Start Date
     let $startdate = $('#datepicker').datepicker({
