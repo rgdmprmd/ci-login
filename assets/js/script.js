@@ -32,7 +32,6 @@ $(function () {
         });
 
     });
-
     // Tombol tambah menu
     $('.tombolTambahMenu').on('click', function () {
         $('.judulModalMenu').html('Add New Menu');
@@ -72,7 +71,6 @@ $(function () {
         });
 
     });
-
     // Tombol tambah sub menu
     $('.tombolTambahSubmenu').on('click', function () {
         $('.judulModalSubmenu').html('Add New Submenu');
@@ -86,6 +84,7 @@ $(function () {
         $('#urlSubmenu').val('');
         $('#iconSubmenu').val('');
     });
+
 
     // Tombol checkbox dari roleAccess
     $('.cekbox').on('click', function () {
@@ -105,7 +104,6 @@ $(function () {
 
         });
     });
-
 
 
     // Tombol edit sub menu
@@ -134,7 +132,6 @@ $(function () {
         });
 
     });
-
     // Tombol tambah sub menu
     $('.tombolTambahEarning').on('click', function () {
         $('.judulModalEarning').html('Add New Earning');
@@ -147,6 +144,9 @@ $(function () {
         $('#outcomeTransaksi').val('');
     });
 
+
+
+    // Tombol order untuk inventory
     $('.tombolOrder').on('click', function () {
 
         const id = $(this).data('id');
@@ -157,9 +157,15 @@ $(function () {
             dataType: 'json',
             success: function (data) {
 
-                $('#produk').val(data.namaProduk);
-                $('#stoky').val(data.stokProduk);
-                $('#qty').attr('max', data.stokProduk);
+                $('#email').val(data.email);
+                $('#idProduk').val(data.idProduk);
+                $('#idCabang').val(data.idCabang);
+                $('#namaProduk').val(data.namaProduk);
+                $('#stokProduk').val(data.stokProduk);
+                $('#hargaBeli').val(data.hargaBeli);
+                $('#hargaJual').val(data.hargaJual);
+                $('#dateCreated').val(data.dateCreated);
+                $('#dateModified').val(data.dateModified);
 
                 $('#qty').keyup(function () {
                     let qty = parseInt($('#qty').val());
@@ -170,6 +176,31 @@ $(function () {
                         qty;
                     }
                 })
+            }
+        });
+    });
+
+    $('.tombolEditProduk').on('click', function () {
+        $('.judulModalTambahProduk').html('Edit Data Produk');
+        $('.submitProduk').html('Edit Produk');
+
+        $('.formActive').attr('action', 'http://localhost:8080/uanq/inventory/editProduk');
+
+        const id = $(this).data('id');
+
+        $.ajax({
+            url: 'http://localhost:8080/uanq/inventory/ajaxGetProduk',
+            data: { idJson: id },
+            method: 'POST',
+            dataType: 'json',
+            success: function (data) {
+
+                $('#idEarning').val(data.idEarning);
+                $('#judulTransaksi').val(data.transaksi);
+                $('#incomeTransaksi').val(data.income);
+                $('#outcomeTransaksi').val(data.outcome);
+                $('#dateCreated').val(data.dateCreated);
+
             }
         });
     });

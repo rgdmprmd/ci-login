@@ -138,13 +138,11 @@ $.ajax({
     url: 'http://localhost:8080/uanq/admin/ajaxIO',
     dataType: 'json',
     success: function (hasil) {
-        console.log(hasil);
 
         let ern = [];
         $.each(hasil, function (i, data) {
             ern.push(data.incomes)
             ern.push(data.outcomes);
-            console.log(ern);
         })
 
         // Pie Chart Example

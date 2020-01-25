@@ -3,8 +3,7 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-    <div class="success-add" data-addProd="<?= $this->session->flashdata('addProd'); ?>"></div>
-    <div class="fail-add" data-addFail="<?= $this->session->flashdata('addFail'); ?>"></div>
+    <div class="success-add" data-produkAdd="<?= $this->session->flashdata('produkAdd'); ?>"></div>
 
     <div class="row">
         <div class="col-lg">
@@ -33,7 +32,7 @@
                             <th scope="col"><?= $i++; ?></th>
                             <td class="text-center">
                                 <a href="<?= base_url(); ?>inventory/orderProduk/<?= $p['idProduk']; ?>" class="badge badge-primary p-2 tombolOrder" data-toggle="modal" data-target="#formModal" data-id="<?= $p['idProduk']; ?>">Order</a>
-                                <a href="<?= base_url(); ?>inventory/produkEdit/<?= $p['idProduk']; ?>" class="badge badge-success p-2 tombolEditProduk" data-toggle="modal" data-target="#tambahProduk" data-id="<?= $p['idProduk']; ?>">Edit</a>
+                                <a href="<?= base_url(); ?>inventory/editProduk/<?= $p['idProduk']; ?>" class="badge badge-success p-2 tombolEditProduk" data-toggle="modal" data-target="#tambahProduk" data-id="<?= $p['idProduk']; ?>">Edit</a>
                                 <a href="<?= base_url(); ?>inventory/produkDelete/<?= $p['idProduk']; ?>" class="badge badge-danger p-2 tombolHapus">Delete</a>
                             </td>
                             <td><?= $p['namaProduk']; ?></td>
@@ -56,7 +55,7 @@
 </div>
 <!-- End of Main Content -->
 
-<!-- Modal -->
+<!-- Modal Tambah edit -->
 <div class="modal fade" id="tambahProduk" tabindex="-1" role="dialog" aria-labelledby="tambahProdukLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -105,7 +104,7 @@
     </div>
 </div>
 
-<!-- Modal Tambah -->
+<!-- Modal Order -->
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -116,7 +115,7 @@
                 </button>
             </div>
             <form action="<?= base_url(); ?>inventory/order" class="formActive" method="POST">
-                <input type="hidden" name="idProduk" id="idProduk">
+                <input type="hidden" name="idProduks" id="idProduks">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="produk">Produk</label>

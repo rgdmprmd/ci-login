@@ -22,6 +22,5 @@ class Inventory_model extends CI_Model
     public function addProduk($data)
     {
         $this->db->insert('products', $data);
-        return $this->db->affected_rows();
     }
 }

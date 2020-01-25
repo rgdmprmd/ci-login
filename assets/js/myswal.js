@@ -18,8 +18,7 @@ const deleteEarning = $('.delete-earning').data('delearning');
 const editEarning = $('.edit-earning').data('edearning');
 const editEarningx = $('.edit-earningx').data('edearningx');
 
-const addProduk = $('.success-add').data('addProd');
-const addFail = $('.fail-add').data('addFail');
+const produkAdded = $('.success-add').data('produkAdd');
 
 $('.tombolHapus').on('click', function (e) {
     e.preventDefault();
@@ -209,34 +208,12 @@ if (editEarning) {
 }
 
 // Jika ada data yang dikirimkan oleh salah password
-if (editEarningx) {
-    Swal.fire({
-        icon: 'warning',
-        width: 600,
-        padding: '2em',
-        title: 'Edit earning failed!',
-        html: "Edit earning kamu gagal, pastikan isi datanya dengan benar."
-    })
-}
-
-// Jika ada data yang dikirimkan oleh salah password
-if (addProduk) {
+if (produkAdded) {
     Swal.fire({
         icon: 'success',
         width: 800,
         padding: '2em',
         title: 'Tambah Produk Berhasil!',
-        html: "Kamu berhasil menambah produk <span class='text-primary'>" + addProduk + "</span>"
-    })
-}
-
-// Jika ada data yang dikirimkan oleh salah password
-if (addProduk) {
-    Swal.fire({
-        icon: 'warning',
-        width: 800,
-        padding: '2em',
-        title: 'Oops, tambah produk gagal!',
-        html: "Ada yang salah dengan data produk <span class='text-primary'>" + addProduk + "</span> yang kamu input."
-    })
+        html: 'Kamu berhasil menambah produk <span class="text-primary">' + produkAdded + '</span>'
+    });
 }
