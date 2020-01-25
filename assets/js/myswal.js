@@ -19,6 +19,7 @@ const editEarning = $('.edit-earning').data('edearning');
 const editEarningx = $('.edit-earningx').data('edearningx');
 
 const produkAdded = $('.success-add').data('produkAdd');
+const produkUpdate = $('.success-update').data('produkUpd');
 
 $('.tombolHapus').on('click', function (e) {
     e.preventDefault();
@@ -215,5 +216,16 @@ if (produkAdded) {
         padding: '2em',
         title: 'Tambah Produk Berhasil!',
         html: 'Kamu berhasil menambah produk <span class="text-primary">' + produkAdded + '</span>'
+    });
+}
+
+// Jika ada data yang dikirimkan oleh salah password
+if (produkUpdate) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Edit Produk Berhasil!',
+        html: 'Kamu berhasil mengedit produk <span class="text-primary">' + produkUpdate + '</span>'
     });
 }

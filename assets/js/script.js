@@ -157,15 +157,10 @@ $(function () {
             dataType: 'json',
             success: function (data) {
 
-                $('#email').val(data.email);
-                $('#idProduk').val(data.idProduk);
-                $('#idCabang').val(data.idCabang);
-                $('#namaProduk').val(data.namaProduk);
-                $('#stokProduk').val(data.stokProduk);
-                $('#hargaBeli').val(data.hargaBeli);
-                $('#hargaJual').val(data.hargaJual);
-                $('#dateCreated').val(data.dateCreated);
-                $('#dateModified').val(data.dateModified);
+                $('#idProduks').val(data.idProduk);
+                $('#produk').val(data.namaProduk);
+                $('#stoky').val(data.stokProduk);
+                $('#qty').attr('max', data.stokProduk);
 
                 $('#qty').keyup(function () {
                     let qty = parseInt($('#qty').val());
@@ -179,7 +174,7 @@ $(function () {
             }
         });
     });
-
+    // Edit Produk
     $('.tombolEditProduk').on('click', function () {
         $('.judulModalTambahProduk').html('Edit Data Produk');
         $('.submitProduk').html('Edit Produk');
@@ -194,15 +189,36 @@ $(function () {
             method: 'POST',
             dataType: 'json',
             success: function (data) {
+                console.log(data);
 
-                $('#idEarning').val(data.idEarning);
-                $('#judulTransaksi').val(data.transaksi);
-                $('#incomeTransaksi').val(data.income);
-                $('#outcomeTransaksi').val(data.outcome);
+                $('#email').val(data.email);
+                $('#idProduks').val(data.idProduk);
+                $('#cabang').val(data.idCabang);
+                $('#namaProduk').val(data.namaProduk);
+                $('#stokProduk').val(data.stokProduk);
+                $('#hargaBeli').val(data.hargaBeli);
+                $('#hargaJual').val(data.hargaJual);
                 $('#dateCreated').val(data.dateCreated);
 
             }
         });
+    });
+    // Tambah Produk
+    $('.tombolTambahProduk').on('click', function () {
+        $('.judulModalTambahProduk').html('Tambah Data Produk');
+        $('.submitProduk').html('Tambah Produk');
+
+        $('.formActive').attr('action', 'http://localhost:8080/uanq/inventory');
+
+        $('#email').val('');
+        $('#idProduks').val('');
+        $('#cabang').val('0');
+        $('#namaProduk').val('');
+        $('#stokProduk').val('');
+        $('#hargaBeli').val('');
+        $('#hargaJual').val('');
+        $('#dateCreated').val('');
+        $('#dateModified').val('');
     });
 
 

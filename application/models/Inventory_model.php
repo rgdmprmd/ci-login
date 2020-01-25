@@ -23,4 +23,12 @@ class Inventory_model extends CI_Model
     {
         $this->db->insert('products', $data);
     }
+
+    public function updateProduk($data)
+    {
+        $id = $this->input->post('idProduk');
+
+        $this->db->where('idProduk', $id);
+        $this->db->update('products', $data);
+    }
 }

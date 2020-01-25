@@ -4,6 +4,7 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
     <div class="success-add" data-produkAdd="<?= $this->session->flashdata('produkAdd'); ?>"></div>
+    <div class="success-update" data-produkUpd="<?= $this->session->flashdata('produkUpd'); ?>"></div>
 
     <div class="row">
         <div class="col-lg">
@@ -47,8 +48,6 @@
             </table>
         </div>
     </div>
-
-
 </div>
 <!-- /.container-fluid -->
 
@@ -69,10 +68,9 @@
 
             <form action="<?= base_url(); ?>inventory" class="formActive" method="POST">
                 <input type="hidden" name="idProduk" id="idProduk">
-                <input type="hidden" name="idCabang" id="idCabang">
                 <input type="hidden" name="email" id="email">
                 <input type="hidden" name="dateCreated" id="dateCreated">
-                <input type="hidden" name="dateModified" id="dateModified">
+                <input type="hidden" name="terjualProduk" id="terjualProduk">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Nama Produk" name="namaProduk" id="namaProduk" autocomplete="off">
@@ -114,7 +112,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url(); ?>inventory/order" class="formActive" method="POST">
+            <form action="<?= base_url(); ?>inventory/order" method="POST">
                 <input type="hidden" name="idProduks" id="idProduks">
                 <div class="modal-body">
                     <div class="form-group">

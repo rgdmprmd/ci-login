@@ -48,7 +48,7 @@
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url(); ?>assets/js/sb-admin-2.min.js"></script>
 <script src="<?= base_url(); ?>assets/js/sweetalert2/sweetalert2.all.min.js"></script>
-<script src="<?= base_url(); ?>assets/js/chartjs/Chart.min.js"></script>
+<script src="<?= base_url(); ?>assets/js/chartjs/chart.bundle.min.js"></script>
 <script src="<?= base_url(); ?>assets/js/chart-area.js"></script>
 <script src="<?= base_url(); ?>assets/js/gijgo.min.js"></script>
 <script src="<?= base_url(); ?>assets/js/script.js"></script>
