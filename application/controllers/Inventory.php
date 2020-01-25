@@ -8,7 +8,7 @@ class Inventory extends CI_Controller
     {
         parent::__construct();
 
-        //3Memanggil helper checkLogin
+        // Memanggil helper checkLogin
         checkLogin();
 
         $this->load->model('Inventory_model', 'invent');
@@ -17,10 +17,47 @@ class Inventory extends CI_Controller
     public function index()
     {
         $email = $this->session->userdata('email');
-        $data['user'] = $this->db->get_where('user', ['emailUser' => $email])->row_array();
-        $data['produk'] = $this->invent->getAllProduk($email);
+
+        $this->load->library('pagination');
+
+        if ($this->input->post('submit')) {
+            $data['keyword'] = $this->input->post('keyword');
+
+            $this->session->set_userdata('keyword', $data['keyword']);
+            redirect('inventory');
+        } else {
+            $data['keyword'] = $this->session->userdata('keyword');
+        }
+
+        $this->db->like('namaProduk', $data['keyword']);
+        $this->db->from('products');
+
+        if ($this->input->get('id')) {
+            $cabid = $this->input->get('id');
+            $this->db->where('idCabang', $cabid);
+        }
+
+        $config['total_rows'] = $this->db->count_all_results();
+        $config['base_url'] = 'http://localhost:8080/uanq/inventory/index';
+        $config['num_links'] = 3;
+        $config['per_page'] = 8;
+
+        $data['total_rows'] = $config['total_rows'];
+        $data['start'] = $this->uri->segment(3);
+
+        if ($this->input->get('id')) {
+            $cabid = $this->input->get('id');
+            $data['produk'] = $this->invent->getProdukByCabang($cabid, $config['per_page'], $data['start'], $data['keyword']);
+        } else {
+            $data['produk'] = $this->invent->getAllProduk($email, $config['per_page'], $data['start'], $data['keyword']);
+        }
+
         $data['cabang'] = $this->invent->getCabang($email);
+        $data['user'] = $this->db->get_where('user', ['emailUser' => $email])->row_array();
+
         $data['title'] = 'Inventory';
+
+        $this->pagination->initialize($config);
 
         $this->form_validation->set_rules('namaProduk', 'Nama Produk', 'required|trim');
         $this->form_validation->set_rules('cabang', 'Cabang', 'required|trim');
@@ -33,7 +70,7 @@ class Inventory extends CI_Controller
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
             $this->load->view('inventory/index', $data);
-            $this->load->view('templates/footer', $data);
+            $this->load->view('templates/footer');
         } else {
             $email = $this->session->userdata('email');
             $cabang = $this->input->post('cabang');
@@ -59,7 +96,7 @@ class Inventory extends CI_Controller
             ];
 
             $this->invent->addProduk($data);
-            $this->session->set_flashdata('produkAdd', $nama);
+            $this->session->set_flashdata('produkadd', 'ditambah');
             redirect('inventory');
         }
     }
@@ -71,35 +108,21 @@ class Inventory extends CI_Controller
 
     public function editProduk()
     {
-        $email = $this->session->userdata('email');
-        $data['user'] = $this->db->get_where('user', ['emailUser' => $email])->row_array();
-        $data['produk'] = $this->invent->getAllProduk($email);
-        $data['cabang'] = $this->invent->getCabang($email);
-        $data['title'] = 'Inventory';
 
         $this->form_validation->set_rules('namaProduk', 'Nama Produk', 'required|trim');
-        $this->form_validation->set_rules('cabang', 'Cabang', 'required|trim');
         $this->form_validation->set_rules('stokProduk', 'Stok Produk', 'required|trim');
         $this->form_validation->set_rules('hargaJual', 'Harga Jual', 'required|trim');
         $this->form_validation->set_rules('hargaBeli', 'Harga Beli', 'required|trim');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('inventory/index', $data);
-            $this->load->view('templates/footer', $data);
+            redirect('inventory');
         } else {
-            $email = $this->session->userdata('email');
-            $cabang = $this->input->post('cabang');
-            $nama = $this->input->post('namaProduk');
-            $stok = $this->input->post('stokProduk');
-            $terjual = $this->input->post('terjualProduk');
-            $beli = $this->input->post('hargaBeli');
-            $jual = $this->input->post('hargaJual');
-            $dateCreate = $this->input->post('dateCreated');
+            $cabang = htmlspecialchars($this->input->post('cabang', true));
+            $nama = htmlspecialchars($this->input->post('namaProduk', true));
+            $stok = htmlspecialchars($this->input->post('stokProduk', true));
+            $beli = htmlspecialchars($this->input->post('hargaBeli', true));
+            $jual = htmlspecialchars($this->input->post('hargaJual', true));
             $profit = $jual - $beli;
-            $date = date('Y-m-d');
 
             $data = [
                 'idCabang' => $cabang,
@@ -108,13 +131,125 @@ class Inventory extends CI_Controller
                 'hargaBeli' => $beli,
                 'hargaJual' => $jual,
                 'profitProduk' => $profit,
-                'dateModified' => $date
+                'dateModified' => date('Y-m-d')
             ];
 
             $this->invent->updateProduk($data);
 
-            $this->session->set_flashdata('produkUpd', 'Add new');
+            $this->session->set_flashdata('produkupd', 'Add new');
             redirect('inventory');
         }
+    }
+
+    public function deleteProduk($id)
+    {
+        $this->invent->deleteProduk($id);
+        $this->session->set_flashdata('produkdel', 'dihapus');
+        redirect('inventory');
+    }
+
+    // ------------------------------ CABANG -----------------------------------
+    public function cabang()
+    {
+        $email = $this->session->userdata('email');
+
+        $this->load->library('pagination');
+
+        if ($this->input->post('submit')) {
+            $data['keyword'] = $this->input->post('keyword');
+
+            $this->session->set_userdata('keyword', $data['keyword']);
+            redirect('inventory/cabang');
+        } else {
+            $data['keyword'] = $this->session->userdata('keyword');
+        }
+
+        $this->db->like('namaCabang', $data['keyword']);
+        $this->db->or_like('alamatCabang', $data['keyword']);
+        $this->db->or_like('telpCabang', $data['keyword']);
+        $this->db->from('cabang');
+
+        $config['total_rows'] = $this->db->count_all_results();
+        $config['base_url'] = 'http://localhost:8080/uanq/inventory/cabang';
+        $config['num_links'] = 3;
+        $config['per_page'] = 5;
+
+        $data['title'] = 'Cabang';
+        $data['total_rows'] = $config['total_rows'];
+        $data['start'] = $this->uri->segment(3);
+        $data['user'] = $this->db->get_where('user', ['emailUser' => $email])->row_array();
+        $data['cabang'] = $this->invent->getAllCabang($email, $config['per_page'], $data['start'], $data['keyword']);
+
+        $this->pagination->initialize($config);
+
+        $this->form_validation->set_rules('namaCabang', 'Nama cabang', 'required|trim', ['required' => 'Nama cabang kamu belum di isi!', 'min_length' => 'Password is too short!']);
+        $this->form_validation->set_rules('alamatCabang', 'Alamat cabang', 'required|trim', ['required' => 'Alamat cabang kamu belum di isi!']);
+        $this->form_validation->set_rules('telpCabang', 'Telephone cabang', 'required|numeric|trim', ['required' => 'Telephone cabang kamu belum di isi!', 'numeric' => 'Kamu hanya boleh memasukan angka saja!']);
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('inventory/cabang', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $email = $this->session->userdata('email');
+            $nama = $this->input->post('namaCabang');
+            $alamat = $this->input->post('alamatCabang');
+            $telp = $this->input->post('telpCabang');
+
+            $data = [
+                'email' => $email,
+                'namaCabang' => $nama,
+                'alamatCabang' => $alamat,
+                'telpCabang' => $telp
+            ];
+
+            $this->invent->addCabang($data);
+            $this->session->set_flashdata('cabangadd', $nama);
+            redirect('inventory/cabang');
+        }
+    }
+
+    public function ajaxGetCabang()
+    {
+        echo json_encode($this->invent->getCabangByid($_POST['idJson']));
+    }
+
+    public function editCabang()
+    {
+        $this->form_validation->set_rules('namaCabang', 'Nama cabang', 'required|trim', ['required' => 'Nama cabang kamu belum di isi!', 'min_length' => 'Password is too short!']);
+        $this->form_validation->set_rules('alamatCabang', 'Alamat cabang', 'required|trim', ['required' => 'Alamat cabang kamu belum di isi!']);
+        $this->form_validation->set_rules('telpCabang', 'Telephone cabang', 'required|numeric|trim', ['required' => 'Telephone cabang kamu belum di isi!', 'numeric' => 'Kamu hanya boleh memasukan angka saja!']);
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('faileditcabang', 'gagal edit');
+            redirect('inventory/cabang');
+        } else {
+            $email = $this->session->userdata('email');
+            $id = $this->input->post('idCabang');
+            $nama = $this->input->post('namaCabang');
+            $alamat = $this->input->post('alamatCabang');
+            $telp = $this->input->post('telpCabang');
+
+            $data = [
+                'email' => $email,
+                'namaCabang' => $nama,
+                'alamatCabang' => $alamat,
+                'telpCabang' => $telp
+            ];
+
+            $this->invent->editCabang($data, $id);
+            $this->session->set_flashdata('cabangedit', $nama);
+            redirect('inventory/cabang');
+        }
+    }
+
+    public function deleteCabang($id)
+    {
+        $this->invent->deleteCabang($id);
+
+        $this->session->set_flashdata('cabangdelete', 'dihapus');
+        redirect('inventory/cabang');
     }
 }

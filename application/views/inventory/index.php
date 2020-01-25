@@ -3,20 +3,47 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-    <div class="success-add" data-produkAdd="<?= $this->session->flashdata('produkAdd'); ?>"></div>
-    <div class="success-update" data-produkUpd="<?= $this->session->flashdata('produkUpd'); ?>"></div>
+    <div class="success-add" data-produkadd="<?= $this->session->flashdata('produkadd'); ?>"></div>
+    <div class="success-update" data-produkupd="<?= $this->session->flashdata('produkupd'); ?>"></div>
+    <div class="success-delete" data-produkdel="<?= $this->session->flashdata('produkdel'); ?>"></div>
 
     <div class="row">
-        <div class="col-lg">
-            <!-- Trigger modal -->
-            <a href="" class="btn btn-primary mb-3 tombolTambahProduk" data-toggle="modal" data-target="#tambahProduk">Tambah Barang Baru</a>
+        <div class="col-lg-6">
+            <a href="" class="btn btn-primary mb-3 tombolTambahProduk float-left" data-toggle="modal" data-target="#tambahProduk">Tambah Barang Baru</a>
+            <div class="dropdown ml-2 float-left">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Pilih Cabang
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="<?= base_url(); ?>inventory">Semua Cabang</a>
+                    <?php foreach ($cabang as $cab) : ?>
+                        <a class="dropdown-item" href="<?= base_url(); ?>inventory?id=<?= $cab['idCabang']; ?>"><?= $cab['namaCabang']; ?></a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <form method="POST" action="">
+                <div class="input-group">
+                    <input type="text" class="form-control" size="50" placeholder="Cari barang" name="keyword" autocomplete="off" autofocus>
+                    <div class="input-group-append">
+                        <input class="btn btn-primary" type="submit" name="submit">
+                    </div>
+                </div>
+            </form>
+            <h6 class="form-text text-grey ml-3">Result : <?= $total_rows; ?></h6>
+        </div>
+    </div>
 
+    <div class="row mt-2">
+        <div class="col-lg-12">
             <!-- Table Produk -->
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col" width="50">#</th>
-                        <th scope="col" width="250" class="text-center">Opsi</th>
+                        <th scope="col" width="200" class="text-center">Opsi</th>
+                        <th scope="col">Cabang</th>
                         <th scope="col">Nama Produk</th>
                         <th scope="col" class="text-right">Stok</th>
                         <th scope="col" class="text-right">Terjual</th>
@@ -27,15 +54,15 @@
                 </thead>
 
                 <tbody>
-                    <?php $i = 1; ?>
                     <?php foreach ($produk as $p) : ?>
                         <tr>
-                            <th scope="col"><?= $i++; ?></th>
+                            <th scope="col"><?= ++$start; ?></th>
                             <td class="text-center">
-                                <a href="<?= base_url(); ?>inventory/orderProduk/<?= $p['idProduk']; ?>" class="badge badge-primary p-2 tombolOrder" data-toggle="modal" data-target="#formModal" data-id="<?= $p['idProduk']; ?>">Order</a>
+                                <a href="<?= base_url(); ?>inventory/orderProduk/<?= $p['idProduk']; ?>" class="badge badge-primary p-2 tombolOrder" data-toggle="modal" data-target="#formModal" data-idorder="<?= $p['idProduk']; ?>">Order</a>
                                 <a href="<?= base_url(); ?>inventory/editProduk/<?= $p['idProduk']; ?>" class="badge badge-success p-2 tombolEditProduk" data-toggle="modal" data-target="#tambahProduk" data-id="<?= $p['idProduk']; ?>">Edit</a>
-                                <a href="<?= base_url(); ?>inventory/produkDelete/<?= $p['idProduk']; ?>" class="badge badge-danger p-2 tombolHapus">Delete</a>
+                                <a href="<?= base_url(); ?>inventory/deleteProduk/<?= $p['idProduk']; ?>" class="badge badge-danger p-2 tombolHapus">Delete</a>
                             </td>
+                            <td><?= $p['namaCabang']; ?></td>
                             <td><?= $p['namaProduk']; ?></td>
                             <td class="text-right"><?= number_format($p['stokProduk'], 0, ',', '.'); ?></td>
                             <td class="text-right"><?= number_format($p['terjualProduk'], 0, ',', '.'); ?></td>
@@ -46,8 +73,11 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <span><?= $this->pagination->create_links(); ?></span>
+
         </div>
     </div>
+
 </div>
 <!-- /.container-fluid -->
 
@@ -68,9 +98,6 @@
 
             <form action="<?= base_url(); ?>inventory" class="formActive" method="POST">
                 <input type="hidden" name="idProduk" id="idProduk">
-                <input type="hidden" name="email" id="email">
-                <input type="hidden" name="dateCreated" id="dateCreated">
-                <input type="hidden" name="terjualProduk" id="terjualProduk">
                 <div class="modal-body">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Nama Produk" name="namaProduk" id="namaProduk" autocomplete="off">

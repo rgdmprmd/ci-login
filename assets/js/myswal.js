@@ -18,8 +18,13 @@ const deleteEarning = $('.delete-earning').data('delearning');
 const editEarning = $('.edit-earning').data('edearning');
 const editEarningx = $('.edit-earningx').data('edearningx');
 
-const produkAdded = $('.success-add').data('produkAdd');
-const produkUpdate = $('.success-update').data('produkUpd');
+const produkAdded = $('.success-add').data('produkadd');
+const produkUpdate = $('.success-update').data('produkupd');
+const produkDelete = $('.success-delete').data('produkdel');
+
+const cabangAdd = $('.success-addCabang').data('cabangadd');
+const cabangEdit = $('.success-editCabang').data('cabangedit');
+const cabangDelete = $('.success-deleteCabang').data('cabangdelete');
 
 $('.tombolHapus').on('click', function (e) {
     e.preventDefault();
@@ -209,13 +214,24 @@ if (editEarning) {
 }
 
 // Jika ada data yang dikirimkan oleh salah password
+if (produkDelete) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Delete Produk Berhasil!',
+        html: 'Kamu berhasil menghapus produk. Produk yang sudah dihapus tidak dapat dikembalikan.'
+    });
+}
+
+// Jika ada data yang dikirimkan oleh salah password
 if (produkAdded) {
     Swal.fire({
         icon: 'success',
         width: 800,
         padding: '2em',
         title: 'Tambah Produk Berhasil!',
-        html: 'Kamu berhasil menambah produk <span class="text-primary">' + produkAdded + '</span>'
+        html: 'Kamu berhasil menambahkan sebuah produk.'
     });
 }
 
@@ -227,5 +243,38 @@ if (produkUpdate) {
         padding: '2em',
         title: 'Edit Produk Berhasil!',
         html: 'Kamu berhasil mengedit produk <span class="text-primary">' + produkUpdate + '</span>'
+    });
+}
+
+// Jika ada data yang dikirimkan oleh salah password
+if (cabangAdd) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Tambah Cabang Baru Berhasil!',
+        html: 'Kamu berhasil menambah <span class="text-primary">' + cabangAdd + '</span>'
+    });
+}
+
+// Jika ada data yang dikirimkan oleh salah password
+if (cabangEdit) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Edit Cabang Berhasil!',
+        html: 'Kamu berhasil merubah data <span class="text-primary">' + cabangEdit + '</span>'
+    });
+}
+
+// Jika ada data yang dikirimkan oleh salah password
+if (cabangDelete) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Hapus Cabang Berhasil!',
+        html: 'Kamu berhasil menghapus cabang. Cabang yang sudah kamu hapus tidak dapat dikembalikan.'
     });
 }

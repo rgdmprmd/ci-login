@@ -4,9 +4,33 @@ defined('BASEPATH') or exit('No direct script access allowed');
 // Controller admin yang menglola admin page
 class Inventory_model extends CI_Model
 {
-    public function getAllProduk($email)
+    // ------------------------------ PRODUCTS -----------------------------------
+    public function getAllProduk($email, $limit, $start, $keyword)
     {
-        return $this->db->order_by('idProduk', 'DESC')->get_where('products', ['email' => $email])->result_array();
+        $sql = "SELECT pr.*, cb.namaCabang FROM products pr JOIN cabang cb USING (idCabang) WHERE pr.email = '{$email}'";
+        if ($keyword) {
+            $sql .= " AND pr.namaProduk LIKE '%$keyword%'";
+        }
+        $sql .= " ORDER BY pr.idProduk DESC LIMIT {$limit}";
+        if ($start) {
+            $sql .= ", {$start}";
+        }
+
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function getProdukByCabang($cabid, $limit, $start, $keyword)
+    {
+        $sql = "SELECT pr.*, cb.namaCabang FROM products pr JOIN cabang cb USING (idCabang) WHERE pr.idCabang = '{$cabid}'";
+        if ($keyword) {
+            $sql .= " AND pr.namaProduk LIKE '%$keyword%'";
+        }
+        $sql .= " ORDER BY pr.idProduk DESC LIMIT {$limit}";
+        if ($start) {
+            $sql .= ", {$start}";
+        }
+
+        return $this->db->query($sql)->result_array();
     }
 
     public function getCabang($email)
@@ -30,5 +54,43 @@ class Inventory_model extends CI_Model
 
         $this->db->where('idProduk', $id);
         $this->db->update('products', $data);
+    }
+
+    public function deleteProduk($id)
+    {
+        $this->db->delete('products', ['idProduk' => $id]);
+    }
+
+    // ------------------------------ CABANG -----------------------------------
+    public function getAllCabang($email, $limit, $start, $keyword)
+    {
+        if ($keyword) {
+            $this->db->like('namaCabang', $keyword);
+            $this->db->or_like('alamatCabang', $keyword);
+            $this->db->or_like('telpCabang', $keyword);
+        }
+
+        return $this->db->get_where('cabang', ['email' => $email], $limit, $start)->result_array();
+    }
+
+    public function getCabangById($id)
+    {
+        return $this->db->get_where('cabang', ['idCabang' => $id])->row_array();
+    }
+
+    public function addCabang($data)
+    {
+        $this->db->insert('cabang', $data);
+    }
+
+    public function editCabang($data, $id)
+    {
+        $this->db->where('idCabang', $id);
+        $this->db->update('cabang', $data);
+    }
+
+    public function deleteCabang($id)
+    {
+        $this->db->delete('cabang', ['idCabang' => $id]);
     }
 }

@@ -149,7 +149,9 @@ $(function () {
     // Tombol order untuk inventory
     $('.tombolOrder').on('click', function () {
 
-        const id = $(this).data('id');
+        const id = $(this).data('idorder');
+        console.log(id);
+
         $.ajax({
             url: 'http://localhost:8080/uanq/inventory/ajaxGetProduk',
             data: { idJson: id },
@@ -189,10 +191,8 @@ $(function () {
             method: 'POST',
             dataType: 'json',
             success: function (data) {
-                console.log(data);
-
                 $('#email').val(data.email);
-                $('#idProduks').val(data.idProduk);
+                $('#idProduk').val(data.idProduk);
                 $('#cabang').val(data.idCabang);
                 $('#namaProduk').val(data.namaProduk);
                 $('#stokProduk').val(data.stokProduk);
@@ -222,13 +222,47 @@ $(function () {
     });
 
 
+    // Tombol Tambah Cabang
+    $('.tombolTambahCabang').on('click', function () {
+        $('.judulModalTambahCabang').html('Tambah Data Cabang');
+        $('.submitCabang').html('Tambah Cabang');
+
+        $('.formActive').attr('action', 'http://localhost:8080/uanq/inventory/cabang');
+
+        $('#namaCabang').val('');
+        $('#alamatCabang').val('');
+        $('#telpCabang').val('');
+    });
+    // Tombol Edit Cabang
+    $('.tombolEditCabang').on('click', function () {
+        $('.judulModalTambahCabang').html('Edit Data Cabang');
+        $('.submitCabang').html('Edit Cabang');
+
+        $('.formActive').attr('action', 'http://localhost:8080/uanq/inventory/editCabang');
+
+        const id = $(this).data('id');
+
+        $.ajax({
+            url: 'http://localhost:8080/uanq/inventory/ajaxGetCabang',
+            data: { idJson: id },
+            method: 'POST',
+            dataType: 'json',
+            success: function (data) {
+
+                $('#idCabang').val(data.idCabang);
+                $('#namaCabang').val(data.namaCabang);
+                $('#alamatCabang').val(data.alamatCabang);
+                $('#telpCabang').val(data.telpCabang);
+            }
+        });
+    });
+
     // Date Picker Start Date
     let $startdate = $('#datepicker').datepicker({
         format: 'yyyy-mm-dd',
         uiLibrary: 'bootstrap4',
         iconsLibrary: 'fontawesome'
     });
-
     // Date Picker End Date
     $('#datepicker').on('change', function () {
         $('.end-date').html(`<label for="datepicker">Sampai tanggal</label><input type="text" width="276" autocomplete="off" class="form-control" id="datepickers" name="endDate">`);
