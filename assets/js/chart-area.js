@@ -168,7 +168,7 @@ $.ajax({
                     xPadding: 15,
                     yPadding: 15,
                     displayColors: false,
-                    caretPadding: 10,
+                    caretPadding: 10
                 },
                 legend: {
                     display: false
