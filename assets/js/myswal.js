@@ -72,54 +72,8 @@ if (successToken) {
     })
 }
 
+// Forgot password swals
 const successforgot = $('.success-forgot').data('sforgot');
-const wrongforgot = $('.wrong-forgot').data('wforgot');
-const exToken = $('.ex-token').data('extoken');
-const successReset = $('.success-reset').data('sreset');
-
-const logout = $('.logout').data('logout');
-
-const successEarning = $('.success-earning').data('searning');
-const deleteEarning = $('.delete-earning').data('delearning');
-const editEarning = $('.edit-earning').data('edearning');
-const editEarningx = $('.edit-earningx').data('edearningx');
-
-const produkAdded = $('.success-add').data('produkadd');
-const produkUpdate = $('.success-update').data('produkupd');
-const produkDelete = $('.success-delete').data('produkdel');
-
-const cabangAdd = $('.success-addCabang').data('cabangadd');
-const cabangEdit = $('.success-editCabang').data('cabangedit');
-const cabangDelete = $('.success-deleteCabang').data('cabangdelete');
-
-const orderAdd = $('.success-addOrder').data('addorder');
-const orderFail = $('.fail-addorder').data('failorder');
-const cancelOrder = $('.cancel-order').data('cancelorder');
-
-$('.tombolHapus').on('click', function (e) {
-    e.preventDefault();
-
-    const href = $(this).attr('href');
-
-    // Sweet alert, untuk confirm yakin ingin dihapus
-    Swal.fire({
-        title: 'Sure want to delete?',
-        text: "You cant recover data what have been deleted.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Delete Data!'
-    }).then((result) => {
-        // Jika tombol ya ditekan, maka redirect bedasarkan href tombol yang diklik
-        if (result.value) {
-            document.location.href = href;
-        }
-    })
-});
-
-
-// Jika ada data yang dikirimkan oleh salah password
 if (successforgot) {
     Swal.fire({
         icon: 'info',
@@ -129,8 +83,7 @@ if (successforgot) {
         html: "But itsn't finish yet, you must check your email to reset your password."
     })
 }
-
-// Jika ada data yang dikirimkan oleh salah password
+const wrongforgot = $('.wrong-forgot').data('wforgot');
 if (wrongforgot) {
     Swal.fire({
         icon: 'warning',
@@ -140,8 +93,7 @@ if (wrongforgot) {
         html: "<span class='text-primary'>" + wrongforgot + "</span> is not registered or activated."
     })
 }
-
-// Jika ada data yang dikirimkan oleh salah password
+const exToken = $('.ex-token').data('extoken');
 if (exToken) {
     Swal.fire({
         icon: 'warning',
@@ -151,8 +103,7 @@ if (exToken) {
         html: "Your token is expired, please forgot password again and make sure use it before 24 hours."
     })
 }
-
-// Jika ada data yang dikirimkan oleh salah password
+const successReset = $('.success-reset').data('sreset');
 if (successReset) {
     Swal.fire({
         icon: 'success',
@@ -163,7 +114,8 @@ if (successReset) {
     })
 }
 
-// Jika ada data yang dikirimkan oleh salah password
+// Logout swals
+const logout = $('.logout').data('logout');
 if (logout) {
     Swal.fire({
         icon: 'success',
@@ -174,7 +126,8 @@ if (logout) {
     })
 }
 
-// Jika ada data yang dikirimkan oleh salah password
+// Earning swals
+const successEarning = $('.success-earning').data('searning');
 if (successEarning) {
     Swal.fire({
         icon: 'success',
@@ -184,8 +137,7 @@ if (successEarning) {
         html: "Data transaksi kamu akan diakumulasikan setiap harinya."
     })
 }
-
-// Jika ada data yang dikirimkan oleh salah password
+const deleteEarning = $('.delete-earning').data('delearning');
 if (deleteEarning) {
     Swal.fire({
         icon: 'success',
@@ -195,8 +147,7 @@ if (deleteEarning) {
         html: "Earning otomatis di akumulasikan dengan data yang kamu hapus"
     })
 }
-
-// Jika ada data yang dikirimkan oleh salah password
+const editEarning = $('.edit-earning').data('edearning');
 if (editEarning) {
     Swal.fire({
         icon: 'success',
@@ -207,7 +158,28 @@ if (editEarning) {
     })
 }
 
-// Jika ada data yang dikirimkan oleh salah password
+// Produk swals
+const produkAdded = $('.success-add').data('produkadd');
+if (produkAdded) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Tambah Produk Berhasil!',
+        html: 'Kamu berhasil menambahkan sebuah produk.'
+    });
+}
+const produkUpdate = $('.success-update').data('produkupd');
+if (produkUpdate) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Edit Produk Berhasil!',
+        html: 'Kamu berhasil mengedit produk <span class="text-primary">' + produkUpdate + '</span>'
+    });
+}
+const produkDelete = $('.success-delete').data('produkdel');
 if (produkDelete) {
     Swal.fire({
         icon: 'success',
@@ -218,29 +190,8 @@ if (produkDelete) {
     });
 }
 
-// Jika ada data yang dikirimkan oleh salah password
-if (produkAdded) {
-    Swal.fire({
-        icon: 'success',
-        width: 800,
-        padding: '2em',
-        title: 'Tambah Produk Berhasil!',
-        html: 'Kamu berhasil menambahkan sebuah produk.'
-    });
-}
-
-// Jika ada data yang dikirimkan oleh salah password
-if (produkUpdate) {
-    Swal.fire({
-        icon: 'success',
-        width: 800,
-        padding: '2em',
-        title: 'Edit Produk Berhasil!',
-        html: 'Kamu berhasil mengedit produk <span class="text-primary">' + produkUpdate + '</span>'
-    });
-}
-
-// Jika ada data yang dikirimkan oleh salah password
+// Cabang Swals
+const cabangAdd = $('.success-addCabang').data('cabangadd');
 if (cabangAdd) {
     Swal.fire({
         icon: 'success',
@@ -250,8 +201,7 @@ if (cabangAdd) {
         html: 'Kamu berhasil menambah <span class="text-primary">' + cabangAdd + '</span>'
     });
 }
-
-// Jika ada data yang dikirimkan oleh salah password
+const cabangEdit = $('.success-editCabang').data('cabangedit');
 if (cabangEdit) {
     Swal.fire({
         icon: 'success',
@@ -261,8 +211,7 @@ if (cabangEdit) {
         html: 'Kamu berhasil merubah data <span class="text-primary">' + cabangEdit + '</span>'
     });
 }
-
-// Jika ada data yang dikirimkan oleh salah password
+const cabangDelete = $('.success-deleteCabang').data('cabangdelete');
 if (cabangDelete) {
     Swal.fire({
         icon: 'success',
@@ -273,7 +222,8 @@ if (cabangDelete) {
     });
 }
 
-// sweet alert untuk order
+// Order swals
+const orderAdd = $('.success-addOrder').data('addorder');
 if (orderAdd) {
     Swal.fire({
         icon: 'success',
@@ -303,7 +253,7 @@ if (orderAdd) {
     })
 
 }
-
+const orderFail = $('.fail-addorder').data('failorder');
 if (orderFail) {
     // Sweet alert, untuk confirm yakin ingin dihapus
     Swal.fire({
@@ -324,7 +274,7 @@ if (orderFail) {
         }
     });
 }
-
+const cancelOrder = $('.cancel-order').data('cancelorder');
 if (cancelOrder) {
     Swal.fire({
         icon: 'success',
@@ -334,3 +284,34 @@ if (cancelOrder) {
         html: 'Kamu berhasil membatalkan order. Order yang sudah kamu batalkan tidak dapat dikembalikan.'
     });
 }
+
+// Delete button swals
+$('.tombolHapus').on('click', function (e) {
+    e.preventDefault();
+
+    const href = $(this).attr('href');
+
+    // Sweet alert, untuk confirm yakin ingin dihapus
+    Swal.fire({
+        title: 'Yakin ingin dihapus?',
+        text: "Kamu gak bisa mengembalikan data yang sudah dihapus.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yaa, Hapus data',
+        cancelButtonText: 'Gak, gajadi'
+    }).then((result) => {
+        // Jika tombol ya ditekan, maka redirect bedasarkan href tombol yang diklik
+        if (result.value) {
+            document.location.href = href;
+        }
+    })
+});
+
+
+
+
+
+
+// sweet alert untuk order
