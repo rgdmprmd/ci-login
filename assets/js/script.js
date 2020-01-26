@@ -283,13 +283,14 @@ $(function () {
         Swal.fire({
             title: 'Order kamu kosong!',
             html: 'Kamu bisa buat order baru melalui halaman inventory atau klik tombol <span class="text-primary">Tambah Order Baru</span>.',
-            width: '600px',
+            width: 800,
             padding: '2em',
             icon: 'info'
         });
 
         $('#tombolOrder').html('<a href="http://localhost:8080/uanq/inventory" title="Tambah order baru" class="btn btn-primary">Tambah Order Baru</a><a href="http://localhost:8080/uanq/inventory/deals" title="Cek transaksi" class="btn btn-secondary ml-2">Cek Transaksi</a>');
     } else {
-        $('#tombolOrder').html('<a href="" class="btn btn-primary tombolTambahData" title="Proses seluruh order" data-toggle="modal" data-target="#formModal">Proses Order</a><a href="http://localhost:8080/uanq/inventory/deleteAllOrder" title="Tombol ini akan menghapus seluruh order" class="btn btn-secondary ml-2 tombolHapus">Batalkan Order</a>');
+        $('#tombolOrder').html('<a href="" class="btn btn-primary tombolTambahData" title="Proses seluruh order" data-toggle="modal" data-target="#formModal">Proses Order</a><a href="http://localhost:8080/uanq/inventory/cancelOrder" title="Tombol ini akan menghapus seluruh order" class="btn btn-secondary ml-2 tombolHapus">Batalkan Order</a>');
     }
+
 });

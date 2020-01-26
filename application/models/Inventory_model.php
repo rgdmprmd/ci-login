@@ -93,6 +93,11 @@ class Inventory_model extends CI_Model
         $this->db->insert('orders', $data);
     }
 
+    public function deleteAllOrder()
+    {
+        $this->db->delete('orders', ['status' => 0]);
+    }
+
 
 
     // ------------------------------ CABANG -----------------------------------

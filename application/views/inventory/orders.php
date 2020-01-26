@@ -3,7 +3,7 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-    <div class="success-earning" data-searning="<?= $this->session->flashdata('searning'); ?>"></div>
+    <div class="cancel-order" data-cancelorder="<?= $this->session->flashdata('cancelorder'); ?>"></div>
 
     <div class="row">
         <div class="col-lg-6" id="tombolOrder" data-order="<?= $count; ?>">

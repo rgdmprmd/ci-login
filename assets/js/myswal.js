@@ -1,10 +1,73 @@
 const wrongEmail = $('.wrong-email').data('wemail');
+if (wrongEmail) {
+    Swal.fire({
+        icon: 'warning',
+        width: 800,
+        padding: '2em',
+        title: 'Oops, email salah!',
+        html: "<span class='text-primary'>" + wrongEmail + "</span> tidak terdaftar. Kamu harus registrasi dulu"
+    })
+}
 const activeEmail = $('.active-email').data('aemail');
+if (activeEmail) {
+    Swal.fire({
+        icon: 'warning',
+        width: 800,
+        padding: '2em',
+        title: 'Oops, email is not active!',
+        html: "<span class='text-primary'>" + activeEmail + "</span> isn't activated, please check your email to activate."
+    })
+}
 const wrongPassword = $('.wrong-password').data('wpass');
+if (wrongPassword) {
+    Swal.fire({
+        icon: 'warning',
+        width: 600,
+        padding: '2em',
+        title: 'Oops, wrong password!',
+        html: "Do you forgot your password, dude?"
+    })
+}
 const registrationSuccess = $('.registration-success').data('regsucs');
+if (registrationSuccess) {
+    Swal.fire({
+        icon: 'success',
+        width: 600,
+        padding: '2em',
+        title: 'Registration Success!',
+        html: "Please check your email to activate your account."
+    })
+}
 const wrongToken = $('.wrong-token').data('wtoken');
+if (wrongToken) {
+    Swal.fire({
+        icon: 'warning',
+        width: 600,
+        padding: '2em',
+        title: wrongToken + " Failed!",
+        html: "Your token is not valid for some reason."
+    })
+}
 const expiredToken = $('.expired-token').data('etoken');
+if (expiredToken) {
+    Swal.fire({
+        icon: 'warning',
+        width: 600,
+        padding: '2em',
+        title: 'Activation Failed!',
+        html: "Your token is expired, please register again and make sure activate it before 24 hours."
+    })
+}
 const successToken = $('.success-token').data('stoken');
+if (successToken) {
+    Swal.fire({
+        icon: 'success',
+        width: 600,
+        padding: '2em',
+        title: 'Activation Success!',
+        html: "<span class='text-primary'>" + successToken + "</span> activation success, please login."
+    })
+}
 
 const successforgot = $('.success-forgot').data('sforgot');
 const wrongforgot = $('.wrong-forgot').data('wforgot');
@@ -28,6 +91,7 @@ const cabangDelete = $('.success-deleteCabang').data('cabangdelete');
 
 const orderAdd = $('.success-addOrder').data('addorder');
 const orderFail = $('.fail-addorder').data('failorder');
+const cancelOrder = $('.cancel-order').data('cancelorder');
 
 $('.tombolHapus').on('click', function (e) {
     e.preventDefault();
@@ -51,82 +115,6 @@ $('.tombolHapus').on('click', function (e) {
     })
 });
 
-// Jika ada data yang dikirimkan oleh salah email
-if (wrongEmail) {
-    Swal.fire({
-        icon: 'warning',
-        width: 800,
-        padding: '2em',
-        title: 'Oops, wrong email!',
-        html: "<span class='text-primary'>" + wrongEmail + "</span> isn't registered, please do some registration if you mind too."
-    })
-}
-
-// Jika ada data yang dikirimkan oleh email unactive
-if (activeEmail) {
-    Swal.fire({
-        icon: 'warning',
-        width: 800,
-        padding: '2em',
-        title: 'Oops, email is not active!',
-        html: "<span class='text-primary'>" + activeEmail + "</span> isn't activated, please check your email to activate."
-    })
-}
-
-// Jika ada data yang dikirimkan oleh salah password
-if (wrongPassword) {
-    Swal.fire({
-        icon: 'warning',
-        width: 600,
-        padding: '2em',
-        title: 'Oops, wrong password!',
-        html: "Do you forgot your password, dude?"
-    })
-}
-
-// Jika ada data yang dikirimkan oleh salah password
-if (registrationSuccess) {
-    Swal.fire({
-        icon: 'success',
-        width: 600,
-        padding: '2em',
-        title: 'Registration Success!',
-        html: "Please check your email to activate your account."
-    })
-}
-
-// Jika ada data yang dikirimkan oleh salah password
-if (wrongToken) {
-    Swal.fire({
-        icon: 'warning',
-        width: 600,
-        padding: '2em',
-        title: wrongToken + " Failed!",
-        html: "Your token is not valid for some reason."
-    })
-}
-
-// Jika ada data yang dikirimkan oleh salah password
-if (expiredToken) {
-    Swal.fire({
-        icon: 'warning',
-        width: 600,
-        padding: '2em',
-        title: 'Activation Failed!',
-        html: "Your token is expired, please register again and make sure activate it before 24 hours."
-    })
-}
-
-// Jika ada data yang dikirimkan oleh salah password
-if (successToken) {
-    Swal.fire({
-        icon: 'success',
-        width: 600,
-        padding: '2em',
-        title: 'Activation Success!',
-        html: "<span class='text-primary'>" + successToken + "</span> activation success, please login."
-    })
-}
 
 // Jika ada data yang dikirimkan oleh salah password
 if (successforgot) {
@@ -331,5 +319,15 @@ if (orderFail) {
         if (result.value) {
             document.location.href = 'http://localhost:8080/uanq/inventory/orders';
         }
+    });
+}
+
+if (cancelOrder) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Order Berhasil Dibatalkan',
+        html: 'Kamu berhasil membatalkan order. Order yang sudah kamu batalkan tidak dapat dikembalikan.'
     });
 }

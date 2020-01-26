@@ -217,6 +217,14 @@ class Inventory extends CI_Controller
         }
     }
 
+    public function cancelOrder()
+    {
+        $this->invent->deleteAllOrder();
+
+        $this->session->set_flashdata('cancelorder', 'dihapus');
+        redirect('inventory/orders');
+    }
+
 
     // ------------------------------ CABANG -----------------------------------
     public function cabang()
