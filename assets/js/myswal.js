@@ -1,3 +1,4 @@
+// Login swals
 const wrongEmail = $('.wrong-email').data('wemail');
 if (wrongEmail) {
     Swal.fire({
@@ -5,7 +6,7 @@ if (wrongEmail) {
         width: 800,
         padding: '2em',
         title: 'Oops, email salah!',
-        html: "<span class='text-primary'>" + wrongEmail + "</span> tidak terdaftar. Kamu harus registrasi dulu"
+        html: "<span class='text-primary'>" + wrongEmail + "</span> tidak terdaftar. Kamu harus registrasi dulu."
     })
 }
 const activeEmail = $('.active-email').data('aemail');
@@ -14,8 +15,8 @@ if (activeEmail) {
         icon: 'warning',
         width: 800,
         padding: '2em',
-        title: 'Oops, email is not active!',
-        html: "<span class='text-primary'>" + activeEmail + "</span> isn't activated, please check your email to activate."
+        title: 'Oops, email kamu belum aktif!',
+        html: "<span class='text-primary'>" + activeEmail + "</span> belum diaktivasi. Silahkan cek email kamu untuk melakukan aktivasi"
     })
 }
 const wrongPassword = $('.wrong-password').data('wpass');
@@ -24,18 +25,20 @@ if (wrongPassword) {
         icon: 'warning',
         width: 600,
         padding: '2em',
-        title: 'Oops, wrong password!',
-        html: "Do you forgot your password, dude?"
+        title: 'Oops, password salah!',
+        html: "Kamu lupa password? mending kamu pakai fitur lupa passwordnya."
     })
 }
+
+// Register swals
 const registrationSuccess = $('.registration-success').data('regsucs');
 if (registrationSuccess) {
     Swal.fire({
         icon: 'success',
         width: 600,
         padding: '2em',
-        title: 'Registration Success!',
-        html: "Please check your email to activate your account."
+        title: 'Registrasi Berhasil!',
+        html: "Silahkan cek email kamu untuk melakukan aktivasi. Email aktivasi akan expired dalam 24 jam."
     })
 }
 const wrongToken = $('.wrong-token').data('wtoken');
