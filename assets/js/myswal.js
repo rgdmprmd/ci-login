@@ -223,7 +223,7 @@ if (cabangDelete) {
 }
 
 // Order swals
-const orderAdd = $('.success-addOrder').data('addorder');
+const orderAdd = $('.success-addorder').data('addorder');
 if (orderAdd) {
     Swal.fire({
         icon: 'success',
@@ -247,7 +247,7 @@ if (orderAdd) {
             if (result.value) {
 
             } else {
-                document.location.href = 'http://localhost:8080/uanq/inventory';
+                document.location.href = 'http://localhost:8080/uanq/inventory/orders';
             }
         })
     })
@@ -274,14 +274,14 @@ if (orderFail) {
         }
     });
 }
-const cancelOrder = $('.cancel-order').data('cancelorder');
-if (cancelOrder) {
+const deleteOrder = $('.delete-order').data('deleteorder');
+if (deleteOrder) {
     Swal.fire({
         icon: 'success',
         width: 800,
         padding: '2em',
-        title: 'Order Berhasil Dibatalkan',
-        html: 'Kamu berhasil membatalkan order. Order yang sudah kamu batalkan tidak dapat dikembalikan.'
+        title: 'Order berhasil dihapus',
+        html: 'Kamu berhasil menghapus sebuah order'
     });
 }
 
@@ -296,10 +296,12 @@ $('.tombolHapus').on('click', function (e) {
         title: 'Yakin ingin dihapus?',
         text: "Kamu gak bisa mengembalikan data yang sudah dihapus.",
         icon: 'warning',
+        width: 800,
+        padding: '2em',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yaa, Hapus data',
+        confirmButtonText: 'Yaa, hapus data',
         cancelButtonText: 'Gak, gajadi'
     }).then((result) => {
         // Jika tombol ya ditekan, maka redirect bedasarkan href tombol yang diklik
@@ -308,10 +310,3 @@ $('.tombolHapus').on('click', function (e) {
         }
     })
 });
-
-
-
-
-
-
-// sweet alert untuk order

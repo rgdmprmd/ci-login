@@ -98,7 +98,10 @@ class Inventory_model extends CI_Model
         $this->db->delete('orders', ['status' => 0]);
     }
 
-
+    public function deleteOrderById($id)
+    {
+        $this->db->delete('orders', ['idOrder' => $id]);
+    }
 
     // ------------------------------ CABANG -----------------------------------
     public function getAllCabang($email, $limit, $start, $keyword)
