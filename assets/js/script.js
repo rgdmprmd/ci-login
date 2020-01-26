@@ -150,7 +150,6 @@ $(function () {
     $('.tombolOrder').on('click', function () {
 
         const id = $(this).data('idorder');
-        console.log(id);
 
         $.ajax({
             url: 'http://localhost:8080/uanq/inventory/ajaxGetProduk',
@@ -158,6 +157,7 @@ $(function () {
             method: 'POST',
             dataType: 'json',
             success: function (data) {
+                console.log(data);
 
                 $('#idProduks').val(data.idProduk);
                 $('#produk').val(data.namaProduk);

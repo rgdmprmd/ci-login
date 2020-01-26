@@ -26,6 +26,9 @@ const cabangAdd = $('.success-addCabang').data('cabangadd');
 const cabangEdit = $('.success-editCabang').data('cabangedit');
 const cabangDelete = $('.success-deleteCabang').data('cabangdelete');
 
+const orderAdd = $('.success-addOrder').data('addorder');
+const orderFail = $('.fail-addorder').data('failorder');
+
 $('.tombolHapus').on('click', function (e) {
     e.preventDefault();
 
@@ -276,5 +279,57 @@ if (cabangDelete) {
         padding: '2em',
         title: 'Hapus Cabang Berhasil!',
         html: 'Kamu berhasil menghapus cabang. Cabang yang sudah kamu hapus tidak dapat dikembalikan.'
+    });
+}
+
+// sweet alert untuk order
+if (orderAdd) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Order Berhasil',
+        html: 'Barang <i class="text-primary">' + orderAdd + '</i> berhasil di order, silahkan cek halaman order.'
+    }).then((result) => {
+        Swal.fire({
+            title: 'Mau tambah order lagi?',
+            text: "Jika tidak, kamu akan diarahkan ke halaman order.",
+            width: '600px',
+            padding: '2em',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, mau',
+            cancelButtonText: 'Tidak, terima kasih'
+        }).then((result) => {
+            if (result.value) {
+
+            } else {
+                document.location.href = 'http://localhost:8080/uanq/inventory';
+            }
+        })
+    })
+
+}
+
+if (orderFail) {
+    // Sweet alert, untuk confirm yakin ingin dihapus
+    Swal.fire({
+        title: 'Oops, kamu sudah order barang ini!',
+        html: "Barang <span class='text-primary'>" + orderFail + "</span> sudah pernah kamu order, mau cek?",
+        width: 650,
+        padding: '2em',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, cek order!',
+        cancelButtonText: 'Tidak, terima kasih'
+    }).then((result) => {
+        // Jika tombol ya ditekan, maka redirect bedasarkan href tombol yang diklik
+        if (result.value) {
+            document.location.href = 'http://localhost:8080/uanq/inventory/orders';
+        }
     });
 }

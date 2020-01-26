@@ -61,6 +61,40 @@ class Inventory_model extends CI_Model
         $this->db->delete('products', ['idProduk' => $id]);
     }
 
+
+    // ------------------------------ ORDERS -----------------------------------
+    public function getAllOrders($email)
+    {
+        return $this->db->get_where('orders', ['email' => $email, 'status' => 0])->result_array();
+    }
+
+    public function getOrderByIdProduk($id)
+    {
+        return $this->db->get_where('orders', ['idProduk' => $id, 'status' => 0])->row_array();
+    }
+
+    public function countOrders($email)
+    {
+        return $this->db->get_where('orders', ['email' => $email, 'status' => 0])->num_rows();
+    }
+
+    public function totalOrders($email)
+    {
+        $this->db->select_sum('totalHarga');
+        $this->db->where('status', 0);
+        $this->db->where('email', $email);
+        $result = $this->db->get('orders')->row();
+
+        return $result->totalHarga;
+    }
+
+    public function addOrder($data)
+    {
+        $this->db->insert('orders', $data);
+    }
+
+
+
     // ------------------------------ CABANG -----------------------------------
     public function getAllCabang($email, $limit, $start, $keyword)
     {

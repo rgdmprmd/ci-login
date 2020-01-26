@@ -6,6 +6,8 @@
     <div class="success-add" data-produkadd="<?= $this->session->flashdata('produkadd'); ?>"></div>
     <div class="success-update" data-produkupd="<?= $this->session->flashdata('produkupd'); ?>"></div>
     <div class="success-delete" data-produkdel="<?= $this->session->flashdata('produkdel'); ?>"></div>
+    <div class="success-addorder" data-addorder="<?= $this->session->flashdata('addorder'); ?>"></div>
+    <div class="fail-addorder" data-failorder="<?= $this->session->flashdata('failorder'); ?>"></div>
 
     <div class="row">
         <div class="col-lg-6">
@@ -139,7 +141,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url(); ?>inventory/order" method="POST">
+            <form action="<?= base_url(); ?>inventory/addOrders" method="POST">
                 <input type="hidden" name="idProduks" id="idProduks">
                 <div class="modal-body">
                     <div class="form-group">

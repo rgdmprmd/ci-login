@@ -148,6 +148,75 @@ class Inventory extends CI_Controller
         redirect('inventory');
     }
 
+
+    // ------------------------------ ORDERS -----------------------------------
+    public function orders()
+    {
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->db->get_where('user', ['emailUser' => $email])->row_array();
+        $data['orders'] = $this->invent->getAllOrders($email);
+        $data['count'] = $this->invent->countOrders($email);
+        $data['total'] = $this->invent->totalOrders($email);
+        $data['title'] = 'Orders';
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('inventory/orders', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function addOrders()
+    {
+        $email = $this->session->userdata('email');
+
+        $this->form_validation->set_rules('qty', 'Quantity Produk', 'required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+            redirect('inventory');
+        } else {
+            $id = $this->input->post('idProduks');
+            $nama = $this->input->post('produk');
+            $stok = $this->input->post('stoky');
+            $qty = $this->input->post('qty');
+            $date = $this->input->post('date');
+
+            $produk = $this->invent->getProdukById($id);
+            $cekProduk = $this->invent->getOrderByIdProduk($id);
+
+            if ($cekProduk < 1) {
+                $totalOrder = $qty * $produk['hargaJual'];
+                $profitOrder = $qty * $produk['profitProduk'];
+
+                $data = [
+                    'idProduk' => $id,
+                    'idCabang' => $produk['idCabang'],
+                    'email' => $email,
+                    'namaBarang' => $nama,
+                    'stokBarang' => $stok,
+                    'terjualBarang' => $produk['terjualProduk'] + $qty,
+                    'hargaJual' => $produk['hargaJual'],
+                    'hargaBeli' => $produk['hargaBeli'],
+                    'qtyOrder' => $qty,
+                    'totalHarga' => $totalOrder,
+                    'profitOrder' => $profitOrder,
+                    'status' => 0,
+                    'dateCreated' => $date,
+                    'dateModified' => 0
+                ];
+
+                $this->invent->addOrder($data);
+
+                $this->session->set_flashdata('addorder', $nama);
+                redirect('inventory');
+            } else {
+                $this->session->set_flashdata('failorder', $nama);
+                redirect('inventory');
+            }
+        }
+    }
+
+
     // ------------------------------ CABANG -----------------------------------
     public function cabang()
     {
