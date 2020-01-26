@@ -68,6 +68,11 @@ class Inventory_model extends CI_Model
         return $this->db->get_where('orders', ['email' => $email, 'status' => 0])->result_array();
     }
 
+    public function getOrderById($id)
+    {
+        return $this->db->get_where('orders', ['idOrder' => $id])->row_array();
+    }
+
     public function getOrderByIdProduk($id)
     {
         return $this->db->get_where('orders', ['idProduk' => $id, 'status' => 0])->row_array();
@@ -91,6 +96,12 @@ class Inventory_model extends CI_Model
     public function addOrder($data)
     {
         $this->db->insert('orders', $data);
+    }
+
+    public function editOrder($data, $id)
+    {
+        $this->db->where('idOrder', $id);
+        $this->db->update('orders', $data);
     }
 
     public function deleteAllOrder()

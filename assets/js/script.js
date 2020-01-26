@@ -292,5 +292,59 @@ $(function () {
     } else {
         $('#tombolOrder').html('<a href="" class="btn btn-primary tombolTambahData" title="Proses seluruh order" data-toggle="modal" data-target="#formModal">Proses Order</a><a href="http://localhost:8080/uanq/inventory/cancelOrder" title="Tombol ini akan menghapus seluruh order" class="btn btn-secondary ml-2 tombolHapus">Batalkan Order</a>');
     }
+    // Ketika tombol edit ditekan, ambil data produk menggunakan ajax
+    $('.tombolEditOrder').on('click', function () {
+        $('.judulModalOrder').html('Edit Data Order');
+        $('.editOrder').html('Edit Order');
+
+        $('.formActive').attr('action', 'http://localhost:8080/uanq/inventory/editOrder');
+
+        const id = $(this).data('id');
+
+        $.ajax({
+            url: 'http://localhost:8080/uanq/inventory/ajaxGetOrder',
+            data: { idJson: id },
+            method: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                let qty = parseInt(data.qtyOrder);
+                let stok = parseInt(data.stokBarang);
+                let stokAsli = qty + stok;
+
+                $('#idOrders').val(data.idOrder);
+                $('#namaBarang').val(data.namaBarang);
+                $('#hargaJual').val(data.hargaJual);
+                $('#qtyOrder').val(data.qtyOrder);
+                $('#stokBarang').val(stokAsli);
+                $('#stokAsli').val(stokAsli);
+                $('#totalHarga').val(data.totalHarga);
+
+            }
+        });
+    });
+    // Ketika nilai qty di form edit di ubah maka otomatis kalkulasi stok dan total harga
+    $('#qtyOrder').on('change', function () {
+
+        let qty = parseInt($('#qtyOrder').val());
+        let stokAsli = parseInt($('#stokAsli').val());
+
+        if (isNaN(qty)) {
+            $('#stokBarang').val(stokAsli);
+        } else {
+            if (qty > stokAsli) {
+                $('#qtyOrder').val(stokAsli)
+                qty = stokAsli;
+            } else {
+                qty;
+            }
+
+            let hargaJual = parseInt($('#hargaJual').val());
+            let total = qty * hargaJual;
+            let stokBarang = stokAsli - qty;
+
+            $('#totalHarga').val(total);
+            $('#stokBarang').val(stokBarang);
+        }
+    });
 
 });

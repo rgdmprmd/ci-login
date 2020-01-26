@@ -5,6 +5,8 @@
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
     <div class="cancel-order" data-cancelorder="<?= $this->session->flashdata('cancelorder'); ?>"></div>
     <div class="delete-order" data-deleteorder="<?= $this->session->flashdata('deleteorder'); ?>"></div>
+    <div class="edit-order" data-editorder="<?= $this->session->flashdata('editorder'); ?>"></div>
+    <div class="fail-edit-order" data-faileditorder="<?= $this->session->flashdata('faileditorder'); ?>"></div>
 
     <!-- Toambol -->
     <div class="row">
@@ -38,9 +40,11 @@
                     <tr>
                         <th scope="col" width="50">#</th>
                         <th scope="col" width="250" class="text-center">Option</th>
-                        <th scope="col">Transaction</th>
-                        <th scope="col" class="text-right">Income</th>
-                        <th scope="col" class="text-right">Outcome</th>
+                        <th scope="col">Nama Barang</th>
+                        <th scope="col" class="text-right">Stok Barang</th>
+                        <th scope="col" class="text-right">Qty</th>
+                        <th scope="col" class="text-right">Harga Satuan</th>
+                        <th scope="col" class="text-right">Total Harga</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,13 +53,15 @@
                         <tr>
                             <th scope="col"><?= $i++; ?></th>
                             <td class="text-center">
-                                <a href="<?= base_url(); ?>inventory/orderDetail/<?= $order['idOrder']; ?>" class="badge badge-primary p-2 tombolEditEarning">Detail</a>
-                                <a href="<?= base_url(); ?>inventory/orderEdit/<?= $order['idOrder']; ?>" class="badge badge-success p-2 tombolEditEarning" data-toggle="modal" data-target="#newEarningModal" data-id="<?= $order['idOrder']; ?>">Edit</a>
+                                <a href="<?= base_url(); ?>inventory/orderDetail/<?= $order['idOrder']; ?>" class="badge badge-primary p-2 tombolEditOrder">Detail</a>
+                                <a href="<?= base_url(); ?>inventory/editOrder/<?= $order['idOrder']; ?>" class="badge badge-success p-2 tombolEditOrder" data-toggle="modal" data-target="#editOrderModal" data-id="<?= $order['idOrder']; ?>">Edit</a>
                                 <a href="<?= base_url(); ?>inventory/deleteOrder/<?= $order['idOrder']; ?>" class="badge badge-danger p-2 tombolHapus">Delete</a>
                             </td>
                             <td><?= $order['namaBarang']; ?></td>
-                            <th class="text-right text-success"><?= number_format($order['totalHarga'], 0, ',', '.'); ?></th>
-                            <th class="text-right text-danger"><?= number_format($order['profitOrder'], 0, ',', '.'); ?></th>
+                            <td class="text-right"><?= $order['stokBarang']; ?></td>
+                            <td class="text-right"><?= $order['qtyOrder']; ?></td>
+                            <th class="text-right text-success"><?= number_format($order['hargaJual'], 0, ',', '.'); ?></th>
+                            <th class="text-right text-danger"><?= number_format($order['totalHarga'], 0, ',', '.'); ?></th>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -69,37 +75,111 @@
 </div>
 <!-- End of Main Content -->
 
-<!-- Modal -->
-<div class="modal fade" id="newEarningModal" tabindex="-1" role="dialog" aria-labelledby="newEarningModalLabel" aria-hidden="true">
+<!-- Modal Proses Orders -->
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title judulModalEarning" id="newEarningModalLabel">Add New Earning</h5>
+                <h5 class="modal-title judulModalEarning" id="formModalLabel">Proses Order</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-            <form action="<?= base_url(); ?>user/earning" class="formActive" method="POST">
-                <input type="hidden" name="idEarning" id="idEarning">
+            <form action="<?= base_url(); ?>inventory/prosesOrder" class="formActive" method="POST">
+                <input type="hidden" name="idOrder" id="idOrder">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Transaction" name="judulTransaksi" id="judulTransaksi">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="uangDiterima">Uang Diterima</label>
+                                <input type="number" class="form-control" name="uangDiterima" id="uangDiterima">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="kembalian">Kembalian</label>
+                                <input type="number" class="form-control" name="kembalian" id="kembalian">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="number" class="form-control" placeholder="Income" name="incomeTransaksi" id="incomeTransaksi">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" class="form-control" placeholder="Outcome" name="outcomeTransaksi" id="outcomeTransaksi">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Date" name="dateCreated" id="dateCreated" readonly value="<?= date('Y-m-d'); ?>">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="total-belanja">Total Belanja</label>
+                                <input type="text" class="form-control" id="total-belanja" name="total-belanja" value="<?= $total; ?>" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary submitEarning">Add Earning</button>
+                    <button type="submit" class="btn btn-primary submitOrder">Proses Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Orders -->
+<div class="modal fade" id="editOrderModal" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title judulModalOrder" id="editOrderModalLabel">Edit Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form action="<?= base_url(); ?>inventory/editOrder" class="formActive" method="POST">
+                <input type="hidden" name="idOrders" id="idOrders">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="namaBarang">Nama Barang</label>
+                                <input type="text" class="form-control" id="namaBarang" name="namaBarang" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="hargaJual">Harga Satuan</label>
+                                <input type="number" class="form-control" name="hargaJual" id="hargaJual" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="qtyOrder">Quantity</label>
+                                <input type="number" class="form-control" name="qtyOrder" id="qtyOrder" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="stokBarang">Stok Barang</label>
+                                <input type="text" class="form-control" id="stokBarang" name="stokBarang" readonly>
+                                <input type="hidden" class="form-control" id="stokAsli" name="stokAsli" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="totalHarga">Total Harga</label>
+                                <input type="text" class="form-control" id="totalHarga" name="totalHarga" value="<?= $total; ?>" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary editOrder">Edit Order</button>
                 </div>
             </form>
         </div>

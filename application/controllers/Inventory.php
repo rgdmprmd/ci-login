@@ -167,6 +167,11 @@ class Inventory extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function ajaxGetOrder()
+    {
+        echo json_encode($this->invent->getOrderById($_POST['idJson']));
+    }
+
     public function addOrders()
     {
         $email = $this->session->userdata('email');
@@ -194,7 +199,7 @@ class Inventory extends CI_Controller
                     'idCabang' => $produk['idCabang'],
                     'email' => $email,
                     'namaBarang' => $nama,
-                    'stokBarang' => $stok,
+                    'stokBarang' => $stok - $qty,
                     'terjualBarang' => $produk['terjualProduk'] + $qty,
                     'hargaJual' => $produk['hargaJual'],
                     'hargaBeli' => $produk['hargaBeli'],
@@ -223,6 +228,34 @@ class Inventory extends CI_Controller
 
         $this->session->set_flashdata('cancelorder', 'dihapus');
         redirect('inventory/orders');
+    }
+
+    public function editOrder()
+    {
+        $this->form_validation->set_rules('qtyOrder', 'Quantity Produk', 'required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+
+            $this->session->set_flashdata('faileditorder', 'Gagal edit');
+            redirect('inventory/orders');
+        } else {
+            $id = $this->input->post('idOrders', true);
+            $qty = $this->input->post('qtyOrder', true);
+            $stok = $this->input->post('stokBarang', true);
+            $total = $this->input->post('totalHarga', true);
+
+            $data = [
+                'qtyOrder' => $qty,
+                'stokBarang' => $stok,
+                'totalHarga' => $total,
+                'dateModified' => date('Y-m-d')
+            ];
+
+            $this->invent->editOrder($data, $id);
+
+            $this->session->set_flashdata('editorder', 'Berhasil edit');
+            redirect('inventory/orders');
+        }
     }
 
     public function deleteOrder($id)

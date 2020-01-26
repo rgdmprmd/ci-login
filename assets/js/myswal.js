@@ -284,6 +284,26 @@ if (deleteOrder) {
         html: 'Kamu berhasil menghapus sebuah order'
     });
 }
+const editOrder = $('.edit-order').data('editorder');
+if (editOrder) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Order berhasil diubah',
+        html: 'Kamu berhasil mengubah sebuah order'
+    });
+}
+const failEditOrder = $('.fail-edit-order').data('faileditorder');
+if (failEditOrder) {
+    Swal.fire({
+        icon: 'warning',
+        width: 800,
+        padding: '2em',
+        title: 'Oops, edit order gagal!',
+        html: 'Ada yang salah dengan quantity order yang kamu masukkan.'
+    });
+}
 
 // Delete button swals
 $('.tombolHapus').on('click', function (e) {
