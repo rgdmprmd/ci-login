@@ -31,6 +31,7 @@ class Inventory extends CI_Controller
 
         $this->db->like('namaProduk', $data['keyword']);
         $this->db->from('products');
+        $this->db->where('email', $email);
 
         if ($this->input->get('id')) {
             $cabid = $this->input->get('id');

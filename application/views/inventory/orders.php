@@ -6,11 +6,13 @@
     <div class="success-earning" data-searning="<?= $this->session->flashdata('searning'); ?>"></div>
 
     <div class="row">
-        <div class="col-lg">
-            <!-- Trigger modal -->
-            <a href="<?= base_url(); ?>inventory" class="btn btn-primary mb-3">Tambah Order Baru</a>
-            <a href="" class="btn btn-secondary mb-3 tombolSeeOrder" data-toggle="modal" data-target="#exampleModal">Lihat Transaksi</a>
+        <div class="col-lg-6" id="tombolOrder" data-order="<?= $count; ?>">
+            <!-- Tombolnya bakal digenerate sama js -->
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-lg">
             <!-- Info -->
             <div class="d-flex justify-content-between mt-3 mb-2">
                 <div class="">
@@ -23,7 +25,11 @@
                     <h6 class="h6">Total Order&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($total, 0, '.', ','); ?></h6>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-lg">
             <!-- Table Earning -->
             <table class="table table-hover">
                 <thead>
