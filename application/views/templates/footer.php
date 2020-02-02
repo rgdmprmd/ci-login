@@ -51,6 +51,7 @@
 <script src="<?= base_url(); ?>assets/js/chartjs/chart.bundle.min.js"></script>
 <script src="<?= base_url(); ?>assets/js/chart-area.js"></script>
 <script src="<?= base_url(); ?>assets/js/gijgo.min.js"></script>
+<script src="<?= base_url(); ?>assets/js/autoNumeric4/autoNumeric.js"></script>
 <script src="<?= base_url(); ?>assets/js/script.js"></script>
 <script src="<?= base_url(); ?>assets/js/myswal.js"></script>
 

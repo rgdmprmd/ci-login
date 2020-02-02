@@ -346,5 +346,18 @@ $(function () {
             $('#stokBarang').val(stokBarang);
         }
     });
+    $('#uangDiterima').autoNumeric('init', { aPad: false, vMin: '0.00' });
+    $('#total-belanja').autoNumeric('init', { aPad: false, vMin: '0.00' });
+    $('#kembalian').autoNumeric('init', { aPad: false, vMin: '-999999999999999.99' });
+
+    $('#uangDiterima').keyup(function () {
+        let bayar = parseInt($('#uangDiterima').autoNumeric('get'));
+        let total = parseInt($('#total-belanja').autoNumeric('get'));
+        let kembalian = bayar - total;
+        console.log(kembalian);
+
+
+        $('#kembalian').autoNumeric('set', kembalian);
+    });
 
 });

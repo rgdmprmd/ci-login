@@ -94,13 +94,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="uangDiterima">Uang Diterima</label>
-                                <input type="number" class="form-control" name="uangDiterima" id="uangDiterima">
+                                <input type="text" class="form-control" name="uangDiterima" id="uangDiterima">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="kembalian">Kembalian</label>
-                                <input type="number" class="form-control" name="kembalian" id="kembalian">
+                                <input type="text" class="form-control" name="kembalian" id="kembalian" readonly>
                             </div>
                         </div>
                     </div>
