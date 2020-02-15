@@ -98,6 +98,13 @@ class Inventory_model extends CI_Model
         $this->db->insert('orders', $data);
     }
 
+    public function setProses()
+    {
+        $this->db->set('status', 1);
+        $this->db->where('status', 0);
+        $this->db->update('orders');
+    }
+
     public function editOrder($data, $id)
     {
         $this->db->where('idOrder', $id);

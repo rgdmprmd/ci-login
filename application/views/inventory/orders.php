@@ -7,6 +7,7 @@
     <div class="delete-order" data-deleteorder="<?= $this->session->flashdata('deleteorder'); ?>"></div>
     <div class="edit-order" data-editorder="<?= $this->session->flashdata('editorder'); ?>"></div>
     <div class="fail-edit-order" data-faileditorder="<?= $this->session->flashdata('faileditorder'); ?>"></div>
+    <div class="proses-order" data-prosesorder="<?= $this->session->flashdata('prosesorder'); ?>"></div>
 
     <!-- Toambol -->
     <div class="row">

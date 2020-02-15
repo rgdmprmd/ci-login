@@ -290,7 +290,7 @@ $(function () {
 
         $('#tombolOrder').html('<a href="http://localhost:8080/uanq/inventory" title="Tambah order baru" class="btn btn-primary">Tambah Order Baru</a><a href="http://localhost:8080/uanq/inventory/deals" title="Cek transaksi" class="btn btn-secondary ml-2">Cek Transaksi</a>');
     } else {
-        $('#tombolOrder').html('<a href="" class="btn btn-primary tombolTambahData" title="Proses seluruh order" data-toggle="modal" data-target="#formModal">Proses Order</a><a href="http://localhost:8080/uanq/inventory/cancelOrder" title="Tombol ini akan menghapus seluruh order" class="btn btn-secondary ml-2 tombolHapus">Batalkan Order</a>');
+        $('#tombolOrder').html('<a href="" class="btn btn-primary tombolProsesOrder" title="Proses seluruh order" data-toggle="modal" data-target="#formModal">Proses Order</a><a href="http://localhost:8080/uanq/inventory/cancelOrder" title="Tombol ini akan menghapus seluruh order" class="btn btn-secondary ml-2 tombolHapus">Batalkan Order</a>');
     }
     // Ketika tombol edit ditekan, ambil data produk menggunakan ajax
     $('.tombolEditOrder').on('click', function () {
@@ -358,6 +358,10 @@ $(function () {
 
 
         $('#kembalian').autoNumeric('set', kembalian);
+    });
+
+    $('.tombolProsesOrder').on('click', function () {
+
     });
 
 });

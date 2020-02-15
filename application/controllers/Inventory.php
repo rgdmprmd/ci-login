@@ -150,7 +150,7 @@ class Inventory extends CI_Controller
     }
 
 
-    // ------------------------------ ORDERS -----------------------------------
+    // ------------------------------ ORDERS ----------------------------------- //
     public function orders()
     {
         $email = $this->session->userdata('email');
@@ -176,9 +176,10 @@ class Inventory extends CI_Controller
     {
         $email = $this->session->userdata('email');
 
-        $this->form_validation->set_rules('qty', 'Quantity Produk', 'required|trim');
+        $this->form_validation->set_rules('qty', 'Quantity Produk', 'required');
 
         if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('failform', 'order');
             redirect('inventory');
         } else {
             $id = $this->input->post('idProduks');
@@ -220,6 +221,28 @@ class Inventory extends CI_Controller
                 redirect('inventory');
             }
         }
+    }
+
+    public function prosesOrder()
+    {
+        $email = $this->session->userdata('email');
+        $orders = $this->invent->getAllOrders($email);
+
+        foreach ($orders as $order) {
+            $id = $order['idProduk'];
+            $stok = $order['stokBarang'];
+            $terjual = $order['terjualBarang'];
+
+            $this->db->set('stokProduk', $stok);
+            $this->db->set('terjualProduk', $terjual);
+            $this->db->set('idProduk', $id);
+            $this->db->update('products');
+        }
+
+        $this->invent->setProses();
+
+        $this->session->set_flashdata('prosesorder', 'Proses order');
+        redirect('inventory/orders');
     }
 
     public function cancelOrder()

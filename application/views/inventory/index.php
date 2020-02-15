@@ -8,6 +8,7 @@
     <div class="success-delete" data-produkdel="<?= $this->session->flashdata('produkdel'); ?>"></div>
     <div class="success-addorder" data-addorder="<?= $this->session->flashdata('addorder'); ?>"></div>
     <div class="fail-addorder" data-failorder="<?= $this->session->flashdata('failorder'); ?>"></div>
+    <div class="fail-form" data-failform="<?= $this->session->flashdata('failform'); ?>"></div>
 
     <div class="row">
         <div class="col-lg-6">

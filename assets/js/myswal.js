@@ -223,6 +223,19 @@ if (cabangDelete) {
 }
 
 // Order swals
+const formFail = $('.fail-form').data('failform');
+if (formFail) {
+    console.log(formFail);
+
+    // Sweet alert, untuk confirm yakin ingin dihapus
+    Swal.fire({
+        title: 'Oops, ' + formFail + ' gagal!',
+        html: "Sepertinya data yang kamu kirimkan belum lengkap, silahkan coba lagi.",
+        width: 650,
+        padding: '2em',
+        icon: 'warning'
+    });
+}
 const orderAdd = $('.success-addorder').data('addorder');
 if (orderAdd) {
     Swal.fire({
@@ -303,6 +316,33 @@ if (failEditOrder) {
         title: 'Oops, edit order gagal!',
         html: 'Ada yang salah dengan quantity order yang kamu masukkan.'
     });
+}
+const prosesOrder = $('.proses-order').data('prosesorder');
+if (prosesOrder) {
+    Swal.fire({
+        icon: 'success',
+        width: 800,
+        padding: '2em',
+        title: 'Order selesai',
+        html: 'Kamu berhasil melakukan transaksi barang.'
+    }).then((result) => {
+        Swal.fire({
+            title: 'Mau lihat data transaksi?',
+            text: "Jika iya, kamu akan diarahkan ke halaman transaksi.",
+            width: '600px',
+            padding: '2em',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, mau',
+            cancelButtonText: 'Tidak, terima kasih'
+        }).then((result) => {
+            if (result.value) {
+                document.location.href = 'http://localhost:8080/uanq/inventory/deals';
+            }
+        })
+    })
 }
 
 // Delete button swals
