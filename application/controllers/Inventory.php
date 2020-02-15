@@ -289,6 +289,22 @@ class Inventory extends CI_Controller
         redirect('inventory/orders');
     }
 
+    // ------------------------------ DEALS -----------------------------------
+    public function deals()
+    {
+        $email = $this->session->userdata('email');
+        $data['user'] = $this->db->get_where('user', ['emailUser' => $email])->row_array();
+        $data['deals'] = $this->invent->getAllDeals($email);
+        $data['count'] = $this->invent->countDeals($email);
+        $data['total'] = $this->invent->totalDeals($email);
+        $data['title'] = 'Deals';
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('inventory/deals', $data);
+        $this->load->view('templates/footer');
+    }
 
     // ------------------------------ CABANG -----------------------------------
     public function cabang()

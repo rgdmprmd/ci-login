@@ -61,7 +61,6 @@ class Inventory_model extends CI_Model
         $this->db->delete('products', ['idProduk' => $id]);
     }
 
-
     // ------------------------------ ORDERS -----------------------------------
     public function getAllOrders($email)
     {
@@ -119,6 +118,27 @@ class Inventory_model extends CI_Model
     public function deleteOrderById($id)
     {
         $this->db->delete('orders', ['idOrder' => $id]);
+    }
+
+    // ------------------------------ DEALS -----------------------------------
+    public function getAllDeals($email)
+    {
+        return $this->db->get_where('orders', ['email' => $email, 'status' => 1])->result_array();
+    }
+
+    public function countDeals($email)
+    {
+        return $this->db->get_where('orders', ['email' => $email, 'status' => 1])->num_rows();
+    }
+
+    public function totalDeals($email)
+    {
+        $this->db->select_sum('totalHarga');
+        $this->db->where('status', 1);
+        $this->db->where('email', $email);
+        $result = $this->db->get('orders')->row();
+
+        return $result->totalHarga;
     }
 
     // ------------------------------ CABANG -----------------------------------
