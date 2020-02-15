@@ -25,10 +25,10 @@
                     <h6 class="h6">Tanggal&nbsp;&nbsp;:&nbsp; <?= date('l, d M Y'); ?></h6>
                 </div>
                 <div class="">
-                    <h6 class="h6">Jumlah Order&nbsp;&nbsp;:&nbsp; <?= $count; ?> </h6>
+                    <h6 class="h6">Jumlah Deal&nbsp;&nbsp;:&nbsp; <?= $count; ?> </h6>
                 </div>
                 <div class="">
-                    <h6 class="h6">Total Order&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($total, 0, '.', ','); ?></h6>
+                    <h6 class="h6">Total Deal&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($total, 0, '.', ','); ?></h6>
                 </div>
             </div>
         </div>
