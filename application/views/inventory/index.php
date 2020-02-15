@@ -144,21 +144,35 @@
             <form action="<?= base_url(); ?>inventory/addOrders" method="POST">
                 <input type="hidden" name="idProduks" id="idProduks">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="produk">Produk</label>
-                        <input type="text" class="form-control" id="produk" name="produk" autocomplete="off" readonly>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="produk">Produk</label>
+                                <input type="text" class="form-control" id="produk" name="produk" autocomplete="off" readonly>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="stoky">Stok</label>
-                        <input type="number" class="form-control" id="stoky" name="stoky" autocomplete="off" readonly>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="stoky">Stok</label>
+                                <input type="number" class="form-control" id="stoky" name="stoky" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="qty">Quantity</label>
+                                <input type="number" class="form-control" id="qty" name="qty" autocomplete="off">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="qty">Quantity</label>
-                        <input type="number" class="form-control" id="qty" name="qty" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Date</label>
-                        <input type="text" class="form-control" id="date" name="date" value="<?= date('Y-m-d'); ?>" readonly>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="text" class="form-control" id="date" name="date" value="<?= date('Y-m-d'); ?>" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
