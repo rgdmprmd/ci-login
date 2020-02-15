@@ -235,7 +235,7 @@ class Inventory extends CI_Controller
 
             $this->db->set('stokProduk', $stok);
             $this->db->set('terjualProduk', $terjual);
-            $this->db->set('idProduk', $id);
+            $this->db->where('idProduk', $id);
             $this->db->update('products');
         }
 

@@ -360,8 +360,16 @@ $(function () {
         $('#kembalian').autoNumeric('set', kembalian);
     });
 
-    $('.tombolProsesOrder').on('click', function () {
-
-    });
+    // Deals
+    let cekTransaksi = $('#tombolDeals').data('deals');
+    if (cekTransaksi < 1) {
+        Swal.fire({
+            title: 'Transaksi kamu kosong!',
+            html: 'Kamu bisa buat transaksi baru melalui halaman inventory atau klik tombol <span class="text-primary">Tambah Transaksi Baru</span>.',
+            width: 800,
+            padding: '2em',
+            icon: 'info'
+        });
+    }
 
 });

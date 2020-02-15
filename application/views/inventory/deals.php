@@ -12,7 +12,8 @@
     <!-- Toambol -->
     <div class="row">
         <div class="col-lg-6" id="tombolDeals" data-deals="<?= $count; ?>">
-            <!-- Tombolnya bakal digenerate sama js -->
+            <a href="http://localhost:8080/uanq/inventory" title="Tambah transaksi baru" class="btn btn-primary">Transaksi Baru</a>
+            <a href="" title="Lihat berdasarkan tanggal" class="btn btn-secondary ml-2" id="sortby" data-toggle="modal" data-target="#exampleModal">Lihat Transaksi</a>
         </div>
     </div>
 
