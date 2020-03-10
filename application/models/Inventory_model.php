@@ -123,19 +123,52 @@ class Inventory_model extends CI_Model
     // ------------------------------ DEALS -----------------------------------
     public function getAllDeals($email)
     {
-        return $this->db->get_where('orders', ['email' => $email, 'status' => 1])->result_array();
+        $date = date('Y-m-d');
+        return $this->db->get_where('orders', ['email' => $email, 'status' => 1, 'dateCreated' => $date])->result_array();
     }
 
     public function countDeals($email)
     {
-        return $this->db->get_where('orders', ['email' => $email, 'status' => 1])->num_rows();
+        $date = date('Y-m-d');
+        return $this->db->get_where('orders', ['email' => $email, 'status' => 1, 'dateCreated' => $date])->num_rows();
     }
 
     public function totalDeals($email)
     {
+        $date = date('Y-m-d');
+
         $this->db->select_sum('totalHarga');
         $this->db->where('status', 1);
         $this->db->where('email', $email);
+        $this->db->where('dateCreated', $date);
+        $result = $this->db->get('orders')->row();
+
+        return $result->totalHarga;
+    }
+
+    public function getDealsByDate($email, $startdate, $enddate)
+    {
+        $this->db->where('status', 1);
+        $this->db->where('email', $email);
+        $this->db->where("dateCreated BETWEEN '$startdate' AND '$enddate'");
+        $this->db->order_by('idOrder', 'DESC');
+        return $this->db->get('orders')->result_array();
+    }
+
+    public function countDealsByDate($email, $startdate, $enddate)
+    {
+        $this->db->where('status', 1);
+        $this->db->where('email', $email);
+        $this->db->where("dateCreated BETWEEN '$startdate' AND '$enddate'");
+        return $this->db->get('orders')->num_rows();
+    }
+
+    public function totalDealsByDate($email, $startdate, $enddate)
+    {
+        $this->db->select_sum('totalHarga');
+        $this->db->where('status', 1);
+        $this->db->where('email', $email);
+        $this->db->where("dateCreated BETWEEN '$startdate' AND '$enddate'");
         $result = $this->db->get('orders')->row();
 
         return $result->totalHarga;

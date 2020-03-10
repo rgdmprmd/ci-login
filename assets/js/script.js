@@ -266,7 +266,7 @@ $(function () {
     });
     // Date Picker End Date
     $('#datepicker').on('change', function () {
-        $('.end-date').html(`<label for="datepicker">Sampai tanggal</label><input type="text" width="276" autocomplete="off" class="form-control" id="datepickers" name="endDate">`);
+        $('.end-date').html(`<label for="datepickers">Sampai tanggal</label><input type="text" width="276" autocomplete="off" class="form-control" id="datepickers" name="endDate">`);
         $('#datepickers').datepicker({
             format: 'yyyy-mm-dd',
             minDate: $startdate.value(),
@@ -371,5 +371,23 @@ $(function () {
             icon: 'info'
         });
     }
+
+    $('#start-date').datepicker({
+        format: 'yyyy-mm-dd',
+        uiLibrary: 'bootstrap4',
+        iconsLibrary: 'fontawesome'
+    }).on('change', function () {
+        let mindate = $(this).val();
+
+        $('#end-date').attr('readonly', false);
+        $('.end-date-picker').html('<label for="end-date">End Date</label> <input type="text" autocomplete="off" class="form-control" name="end-date" id="end-date">')
+        $('#end-date').datepicker({
+            format: 'yyyy-mm-dd',
+            uiLibrary: 'bootstrap4',
+            minDate: mindate,
+            iconsLibrary: 'fontawesome'
+        });
+    });
+
 
 });

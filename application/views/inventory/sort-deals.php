@@ -33,7 +33,7 @@
         <div class="col-lg">
             <div class="d-flex justify-content-between mt-3 mb-2">
                 <div class="">
-                    <h6 class="h6">Tanggal&nbsp;&nbsp;:&nbsp; <?= date('l, d M Y'); ?></h6>
+                    <h6 class="h6">Tanggal&nbsp;&nbsp;:&nbsp; <?= $date ?></h6>
                 </div>
                 <div class="">
                     <h6 class="h6">Jumlah Deal&nbsp;&nbsp;:&nbsp; <?= $count; ?> </h6>
