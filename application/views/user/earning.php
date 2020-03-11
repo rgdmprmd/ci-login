@@ -10,54 +10,78 @@
 
     <div class="row">
         <div class="col-lg">
-            <!-- Trigger modal -->
-            <a href="" class="btn btn-primary mb-3 tombolTambahEarning" data-toggle="modal" data-target="#newEarningModal">Add New Earning</a>
-            <a href="" class="btn btn-secondary mb-3 tombolSeeEarning" data-toggle="modal" data-target="#exampleModal">See Earning</a>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"><?= $title; ?> List</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Sort earnings by</div>
+                            <a class="dropdown-item" href="#">Today</a>
+                            <a class="dropdown-item" href="#">This Week</a>
+                            <a class="dropdown-item" href="#">This Month</a>
+                            <a class="dropdown-item" href="#">This Year</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModal">Custom</a>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Info -->
-            <div class="d-flex justify-content-between mt-3 mb-2">
-                <div class="">
-                    <h6 class="h6">Tanggal&nbsp;&nbsp;:&nbsp; <?= $date; ?></h6>
-                </div>
-                <div class="">
-                    <h6 class="h6">Balance&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($balance, 0, ',', '.'); ?></h6>
-                </div>
-                <div class="">
-                    <h6 class="h6">Income Today&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($sumIncome, 0, ',', '.'); ?></h6>
-                </div>
-                <div class="">
-                    <h6 class="h6">Outcome Today&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($sumOutcome, 0, ',', '.'); ?></h6>
+                <div class="card-body">
+                    <!-- Trigger modal -->
+                    <a href="" class="btn btn-primary mb-3 tombolTambahEarning" data-toggle="modal" data-target="#newEarningModal">Add New Earning</a>
+                    <!-- <a href="" class="btn btn-secondary mb-3 tombolSeeEarning" data-toggle="modal" data-target="#exampleModal">See Earning</a> -->
+
+                    <!-- Info -->
+                    <div class="d-flex justify-content-between mt-3 mb-2">
+                        <div class="">
+                            <h6 class="h6">Tanggal&nbsp;&nbsp;:&nbsp; <?= $date; ?></h6>
+                        </div>
+                        <div class="">
+                            <h6 class="h6">Balance&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($balance, 0, ',', '.'); ?></h6>
+                        </div>
+                        <div class="">
+                            <h6 class="h6">Income Today&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($sumIncome, 0, ',', '.'); ?></h6>
+                        </div>
+                        <div class="">
+                            <h6 class="h6">Outcome Today&nbsp;&nbsp;:&nbsp; Rp. <?= number_format($sumOutcome, 0, ',', '.'); ?></h6>
+                        </div>
+                    </div>
+
+                    <!-- Table Earning -->
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="50">#</th>
+                                <th scope="col" width="250" class="text-center">Option</th>
+                                <th scope="col">Transaction</th>
+                                <th scope="col">Date</th>
+                                <th scope="col" class="text-right">Income</th>
+                                <th scope="col" class="text-right">Outcome</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; ?>
+                            <?php foreach ($earnings as $earning) : ?>
+                                <tr>
+                                    <th scope="col"><?= $i++; ?></th>
+                                    <td class="text-center">
+                                        <a href="<?= base_url(); ?>user/earningDetail/<?= $earning['idEarning']; ?>" class="badge badge-primary p-2 tombolEditEarning">Detail</a>
+                                        <a href="<?= base_url(); ?>user/earningEdit/<?= $earning['idEarning']; ?>" class="badge badge-success p-2 tombolEditEarning" data-toggle="modal" data-target="#newEarningModal" data-id="<?= $earning['idEarning']; ?>">Edit</a>
+                                        <a href="<?= base_url(); ?>user/earningDelete/<?= $earning['idEarning']; ?>" class="badge badge-danger p-2 tombolHapus">Delete</a>
+                                    </td>
+                                    <td><?= $earning['transaksi']; ?></td>
+                                    <td><?= $earning['dateCreated']; ?></td>
+                                    <th class="text-right text-success"><?= number_format($earning['income'], 0, ',', '.'); ?></th>
+                                    <th class="text-right text-danger"><?= number_format($earning['outcome'], 0, ',', '.'); ?></th>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-            <!-- Table Earning -->
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col" width="50">#</th>
-                        <th scope="col" width="250" class="text-center">Option</th>
-                        <th scope="col">Transaction</th>
-                        <th scope="col" class="text-right">Income</th>
-                        <th scope="col" class="text-right">Outcome</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1; ?>
-                    <?php foreach ($earnings as $earning) : ?>
-                        <tr>
-                            <th scope="col"><?= $i++; ?></th>
-                            <td class="text-center">
-                                <a href="<?= base_url(); ?>user/earningDetail/<?= $earning['idEarning']; ?>" class="badge badge-primary p-2 tombolEditEarning">Detail</a>
-                                <a href="<?= base_url(); ?>user/earningEdit/<?= $earning['idEarning']; ?>" class="badge badge-success p-2 tombolEditEarning" data-toggle="modal" data-target="#newEarningModal" data-id="<?= $earning['idEarning']; ?>">Edit</a>
-                                <a href="<?= base_url(); ?>user/earningDelete/<?= $earning['idEarning']; ?>" class="badge badge-danger p-2 tombolHapus">Delete</a>
-                            </td>
-                            <td><?= $earning['transaksi']; ?></td>
-                            <th class="text-right text-success"><?= number_format($earning['income'], 0, ',', '.'); ?></th>
-                            <th class="text-right text-danger"><?= number_format($earning['outcome'], 0, ',', '.'); ?></th>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
         </div>
     </div>
 
