@@ -10,14 +10,15 @@
     <div class="fail-addorder" data-failorder="<?= $this->session->flashdata('failorder'); ?>"></div>
     <div class="fail-form" data-failform="<?= $this->session->flashdata('failform'); ?>"></div>
 
-    <div class="row">
-        <div class="col-lg-6">
-            <a href="" class="btn btn-primary mb-3 tombolTambahProduk float-left" data-toggle="modal" data-target="#tambahProduk">Tambah Barang Baru</a>
-            <div class="dropdown ml-2 float-left">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Pilih Cabang
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary"><?= $title ?> List</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Pilih Cabang</div>
                     <a class="dropdown-item" href="<?= base_url(); ?>inventory">Semua Cabang</a>
                     <?php foreach ($cabang as $cab) : ?>
                         <a class="dropdown-item" href="<?= base_url(); ?>inventory?id=<?= $cab['idCabang']; ?>"><?= $cab['namaCabang']; ?></a>
@@ -25,62 +26,80 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <form method="POST" action="">
-                <div class="input-group">
-                    <input type="text" class="form-control" size="50" placeholder="Cari barang" name="keyword" autocomplete="off" autofocus>
-                    <div class="input-group-append">
-                        <input class="btn btn-primary" type="submit" name="submit">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <a href="" class="btn btn-primary mb-3 tombolTambahProduk float-left" data-toggle="modal" data-target="#tambahProduk">Tambah Barang Baru</a>
+                    <div class="dropdown ml-2 float-left">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pilih Cabang
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="<?= base_url(); ?>inventory">Semua Cabang</a>
+                            <?php foreach ($cabang as $cab) : ?>
+                                <a class="dropdown-item" href="<?= base_url(); ?>inventory?id=<?= $cab['idCabang']; ?>"><?= $cab['namaCabang']; ?></a>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
-            </form>
-            <h6 class="form-text text-grey ml-3">Result : <?= $total_rows; ?></h6>
+                <div class="col-lg-6">
+                    <form method="POST" action="">
+                        <div class="input-group">
+                            <input type="text" class="form-control" size="50" placeholder="Cari barang" name="keyword" autocomplete="off" autofocus>
+                            <div class="input-group-append">
+                                <input class="btn btn-primary" type="submit" name="submit">
+                            </div>
+                        </div>
+                    </form>
+                    <h6 class="form-text text-grey ml-3">Result : <?= $total_rows; ?></h6>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-lg-12">
+                    <!-- Table Produk -->
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" width="50">#</th>
+                                <th scope="col" width="200" class="text-center">Opsi</th>
+                                <th scope="col">Cabang</th>
+                                <th scope="col">Nama Produk</th>
+                                <th scope="col" class="text-right">Stok</th>
+                                <th scope="col" class="text-right">Terjual</th>
+                                <th scope="col" class="text-right">Harga Beli</th>
+                                <th scope="col" class="text-right">Harga Jual</th>
+                                <th scope="col" class="text-right">Profit</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach ($produk as $p) : ?>
+                                <tr>
+                                    <th scope="col"><?= ++$start; ?></th>
+                                    <td class="text-center">
+                                        <a href="<?= base_url(); ?>inventory/orderProduk/<?= $p['idProduk']; ?>" class="badge badge-primary p-2 tombolOrder" data-toggle="modal" data-target="#formModal" data-idorder="<?= $p['idProduk']; ?>">Order</a>
+                                        <a href="<?= base_url(); ?>inventory/editProduk/<?= $p['idProduk']; ?>" class="badge badge-success p-2 tombolEditProduk" data-toggle="modal" data-target="#tambahProduk" data-id="<?= $p['idProduk']; ?>">Edit</a>
+                                        <a href="<?= base_url(); ?>inventory/deleteProduk/<?= $p['idProduk']; ?>" class="badge badge-danger p-2 tombolHapus">Delete</a>
+                                    </td>
+                                    <td><?= $p['namaCabang']; ?></td>
+                                    <td><?= $p['namaProduk']; ?></td>
+                                    <td class="text-right"><?= number_format($p['stokProduk'], 0, ',', '.'); ?></td>
+                                    <td class="text-right"><?= number_format($p['terjualProduk'], 0, ',', '.'); ?></td>
+                                    <td class="text-right"><?= number_format($p['hargaBeli'], 0, ',', '.'); ?></td>
+                                    <td class="text-right"><?= number_format($p['hargaJual'], 0, ',', '.'); ?></td>
+                                    <th class="text-right text-success"><?= number_format($p['profitProduk'], 0, ',', '.'); ?></th>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <span><?= $this->pagination->create_links(); ?></span>
+
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="row mt-2">
-        <div class="col-lg-12">
-            <!-- Table Produk -->
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col" width="50">#</th>
-                        <th scope="col" width="200" class="text-center">Opsi</th>
-                        <th scope="col">Cabang</th>
-                        <th scope="col">Nama Produk</th>
-                        <th scope="col" class="text-right">Stok</th>
-                        <th scope="col" class="text-right">Terjual</th>
-                        <th scope="col" class="text-right">Harga Beli</th>
-                        <th scope="col" class="text-right">Harga Jual</th>
-                        <th scope="col" class="text-right">Profit</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php foreach ($produk as $p) : ?>
-                        <tr>
-                            <th scope="col"><?= ++$start; ?></th>
-                            <td class="text-center">
-                                <a href="<?= base_url(); ?>inventory/orderProduk/<?= $p['idProduk']; ?>" class="badge badge-primary p-2 tombolOrder" data-toggle="modal" data-target="#formModal" data-idorder="<?= $p['idProduk']; ?>">Order</a>
-                                <a href="<?= base_url(); ?>inventory/editProduk/<?= $p['idProduk']; ?>" class="badge badge-success p-2 tombolEditProduk" data-toggle="modal" data-target="#tambahProduk" data-id="<?= $p['idProduk']; ?>">Edit</a>
-                                <a href="<?= base_url(); ?>inventory/deleteProduk/<?= $p['idProduk']; ?>" class="badge badge-danger p-2 tombolHapus">Delete</a>
-                            </td>
-                            <td><?= $p['namaCabang']; ?></td>
-                            <td><?= $p['namaProduk']; ?></td>
-                            <td class="text-right"><?= number_format($p['stokProduk'], 0, ',', '.'); ?></td>
-                            <td class="text-right"><?= number_format($p['terjualProduk'], 0, ',', '.'); ?></td>
-                            <td class="text-right"><?= number_format($p['hargaBeli'], 0, ',', '.'); ?></td>
-                            <td class="text-right"><?= number_format($p['hargaJual'], 0, ',', '.'); ?></td>
-                            <th class="text-right text-success"><?= number_format($p['profitProduk'], 0, ',', '.'); ?></th>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <span><?= $this->pagination->create_links(); ?></span>
-
-        </div>
-    </div>
-
 </div>
 <!-- /.container-fluid -->
 
