@@ -233,10 +233,21 @@ class Inventory extends CI_Controller
             $stok = $order['stokBarang'];
             $terjual = $order['terjualBarang'];
 
+            $data = [
+                'email' => $email,
+                'transaksi' => $order['namaBarang'],
+                'income' => $order['hargaJual'],
+                'outcome' => $order['hargaBeli'],
+                'dateCreated' => date('Y-m-d'),
+                'dateModified' => 0
+            ];
+
             $this->db->set('stokProduk', $stok);
             $this->db->set('terjualProduk', $terjual);
             $this->db->where('idProduk', $id);
             $this->db->update('products');
+
+            $this->db->insert('earnings', $data);
         }
 
         $this->invent->setProses();
