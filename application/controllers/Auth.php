@@ -227,6 +227,15 @@ class Auth extends CI_Controller
                     // Jika blm expired, update user menjadi active dan hapus tokennya, via model
                     $this->auth->emailIsVerify($email);
 
+                    $dataCabang = [
+                        'email' => $email,
+                        'namaCabang' => 'Pusat',
+                        'alamatCabang' => 'Tattooine',
+                        'telpCabang' => '021-14045'
+                    ];
+
+                    $this->db->insert('cabang', $dataCabang);
+
                     // Tampilkan pesan berhasil dan redirect ke halaman login
                     $this->session->set_flashdata('stoken', $email);
                     redirect('auth');
