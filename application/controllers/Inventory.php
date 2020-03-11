@@ -319,14 +319,10 @@ class Inventory extends CI_Controller
 
     public function sortDeals()
     {
-        $this->form_validation->set_rules('start-date', 'StartDate', 'required');
-        $this->form_validation->set_rules('end-date', 'StartDate', 'required');
-        if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('sortempty', 'sortkosong');
-            redirect('inventory/deals');
-        } else {
-            $startdate = $this->input->post('start-date');
-            $enddate = $this->input->post('end-date');
+        if ($this->input->get('end-date')) {
+            $startdate = $this->input->get('start-date');
+            $enddate = $this->input->get('end-date');
+            $sort = $this->input->get('sort');
             $email = $this->session->userdata('email');
 
             $data['user'] = $this->db->get_where('user', ['emailUser' => $email])->row_array();
@@ -334,16 +330,15 @@ class Inventory extends CI_Controller
             $data['count'] = $this->invent->countDealsByDate($email, $startdate, $enddate);
             $data['total'] = $this->invent->totalDealsByDate($email, $startdate, $enddate);
             $data['date'] = $startdate . ' - ' . $enddate;
-            $data['title'] = 'Deals';
-
-            // print_r($data);
-            // exit();
+            $data['title'] = $sort . ' Deals';
 
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
             $this->load->view('inventory/sort-deals', $data);
             $this->load->view('templates/footer');
+        } else {
+            redirect('inventory/deals');
         }
     }
 
